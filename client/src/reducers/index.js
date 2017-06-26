@@ -5,10 +5,12 @@ import { combineReducers } from 'redux';
 import dummyReducer from './dummy';
 import userReducer from './user';
 import snapshotsReducer from './snapshots-reducer';
+import liveCodeReducer from './liveCode-reducer';
 
 
 /* Combine & Export Reducers to Store */
 export default combineReducers({
+  liveCodeReducer,
   snapshotsReducer,
   dummyReducer,
   userReducer

@@ -20,7 +20,7 @@ const MainView = ({ code, snapshots, selectSnapshot }) => (
       <div className="col-md-9">
         <h1>Lecture</h1>
         <div className="row">
-          <CodeView code={code} />
+          <CodeView />
         </div>
       </div>
     </div>
@@ -28,16 +28,18 @@ const MainView = ({ code, snapshots, selectSnapshot }) => (
 );
 
 
+const loadCode = () => {
+  return null;
+};
+
 const mapStateToProps = ({ code, snapshots, selectSnapshot }) => ({
-  code: { source: 'source code' },
+  code: 'class test{};',
   snapshots: { list: [], 
                selected: {}},
 });
 
-const mapDispatch = (dispatch) => ({
+const mapDispatch = dispatch => ({
   selectSnapshot: () => {console.log('Select SNAPSHOT!!!');}
 });
 
 export default connect(mapStateToProps, mapDispatch)(MainView);
-
-
