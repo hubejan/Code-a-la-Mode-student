@@ -30,7 +30,8 @@ const MainView = ({ code, snapshots, selectSnapshot }) => (
 
 const mapStateToProps = ({ code, snapshots, selectSnapshot }) => ({
   code: { source: 'source code' },
-  snapshots: { list: [], selected: {}},
+  snapshots: { list: [], 
+               selected: {}},
 });
 
 const mapDispatch = (dispatch) => ({
