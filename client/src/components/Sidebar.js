@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
-export default function Sidebar({ snapshots, selectSnapshot }) {
-  return (
+const Sidebar = ({ snapshots, selectSnapshot }) => (
     <sidebar>
       <h3>Snapshots</h3>
       <ul className="list-unstyled">
@@ -10,13 +9,14 @@ export default function Sidebar({ snapshots, selectSnapshot }) {
           snapshots.list.map((snapshot) => {
             return (
               <li key={snapshot.id} className="category-item menu-item">
-                <Link onClick={() => selectSnapshot(snapshot)}>{snapshot.name}</Link>
+                <Link onClick={ () => selectSnapshot(snapshot)}>{snapshot.name}</Link>
               </li>
             );
           })
         }
-      </ul>
+      </ul>      
       <hr />
     </sidebar>
-  );
-}
+);
+
+export default Sidebar;
