@@ -5,25 +5,9 @@ import { connect } from 'react-redux';
 import Navbar from './Navbar';
 import store from '../store';
 import FileTree from 'react-filetree-electron';
-const BrowserFS = require('browserfs');
-const Promise = require('bluebird');
-//  import fs from 'download-npm'
-// import fs from 'fs-es6';
-// import fs from 'bro-fs';
-//import fs from ''
-
-var fs = Promise.promisifyAll(require('fs'));
-
-
-// var fs = require('fs');
-// const logSuccess = (value) => console.log(`Success with: ${value} !!!`)
-
-// const makeFilesTree = (fileSystem) => {
-//   for (let i = 0; i <= 10; i++){
-//       fileSystem.writeFile(`file${i}.txt`, `File ${i} content !!!`)
-//       .then(logSuccess);
-//   }
-// }
+import fs from 'fs';
+// const Promise = require('bluebird');
+// const fs = Promise.promisifyAll(require('fs'));
 
 // const readF = (file) => {
 
@@ -46,8 +30,6 @@ var fs = Promise.promisifyAll(require('fs'));
 //   console.dir(html5fs);
 //   console.log('FS Initialized!!')
 // }
-
-
 
 // const createFileSystem  = () => {
 //   fs = require('fs');

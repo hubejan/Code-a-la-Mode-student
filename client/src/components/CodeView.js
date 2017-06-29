@@ -18,12 +18,10 @@ export default class CodeView extends Component {
 }
 
   componentDidMount() {
-    this.setState({ socket: io('172.16.25.109:3030') },
-                  () => { this.state.socket.on('editorChanges',
-                                                data => { this.setState({data}); }
-                                               );
-                        }
-                 );
+    this.setState({ socket: io('172.16.25.109:3030') }, () => {
+        this.state.socket.on('editorChanges', data => { this.setState({data});
+      });
+    });
   }
 
   render() {
