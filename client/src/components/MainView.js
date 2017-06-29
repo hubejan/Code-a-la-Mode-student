@@ -4,103 +4,106 @@ import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
 import Navbar from './Navbar';
 import store from '../store';
-import FileTree from 'react-filetree-electron';
+import FileTree from '../containers/FileTreeContainer';
+import { getAllFiles } from '../utils/file-functions';
+import Promise from 'bluebird';
 import fs from 'fs';
-// const Promise = require('bluebird');
-// const fs = Promise.promisifyAll(require('fs'));
+const pfs = Promise.promisifyAll(fs);
 
-// const readF = (file) => {
+const writeNum = (num) => {
+  const test = `/test${num}`;
+  fs.writeFile(`${test}.txt`, `${test}`, function(writeErr) {
+    console.log(`wrote ${test}`);
+  });
+};
 
-//   fs.readdirAsync('/',(err,rv)=>{console.log(rv);});
-//   // fs.readFile('/test22.txt', function(err, contents) {
-//   //   console.log(contents.toString());
-//   //   // console.log(contents);
-//   // });
-// }
+const readNum = (num) => {
+  const test = `/test${num}`;
+  fs.readFile(`${test}.txt`, (readErr, contents) => {
+    console.log(contents.toString());
+  });
+};
 
-// const writeF = (file) => {
-//   fs.writeFile( file, 'Cool, I can do this in the browser!');
-// }
+const writeAndRead = () => {
+  fs.writeFile('/test3.txt', 'text3', function(writeerr) {
+    fs.readFile('/test2.txt', function(readerr, contents) {
+      console.log(contents.toString());
+    });
+  });
+};
 
-// const initializeFS = () => {
-//   console.log('Initializing FS...')
-//   var html5fs = new BrowserFS.FileSystem.HTML5FS(10);
-//   html5fs.allocate();
-//   BrowserFS.initialize(html5fs);
-//   console.dir(html5fs);
-//   console.log('FS Initialized!!')
-// }
-
-// const createFileSystem  = () => {
-//   fs = require('fs');
-// //   fs.writeFileSync('/test22.txt', 'Cool, I can do this in the browser!', function(err) {
-// //     console.log(`File created ? ${fs}`)
-// //     console.dir(fs)
-// //   fs.readFile('/test22.txt', function(err, contents) {
-// //     // console.log(contents.toString());
-// //     console.log(contents);
-// //   });
-// // });
-// // fs.mkdirSync('/');
-// let fileName = '/test22.txt';
-
-// try {
-//   fs.writeFile( fileName, 'Cool, I can do this in the browser!');
-// }catch (err) {
-//   console.log(`Catch error: ${err}`)
-//   console.dir(err)
-// }
-// // ,(err)=>{
-// //     console.log('errorWWW',err);
-// // });
-
-//   fs.readFile(fileName, function(err, contents) {
-//     console.log(contents.toString());
-//     console.log(err);
-//   });
+const readDir = (dir) => {
+  fs.readdir(dir, (err, contents) => {
+    if (err) console.log(err);
+    console.log(contents.toString());
+  });
+};
+//////////////////////////////////////
+// promisified below //
+//////////////////////////////////////
 
 
-// console.log(fs.readdirSync('/'))
-//  (ret) => {console.log(`Directory entries: ${ret}`)})
+const pwriteNum = (num) => {
+  const test = `/test${num}`;
+  fs.writeFile(`${test}.txt`, `${test}`, function(writeErr) {
+    console.log(`wrote ${test}`);
+  });
+};
 
+const preadNum = (num) => {
+  const test = `/test${num}`;
+  fs.readFile(`${test}.txt`, (readErr, contents) => {
+    console.log(contents.toString());
+  });
+};
 
-//
-// fs.init({type: window.TEMPORARY, bytes: 5 * 1024 * 1024})
-//   .then(() => fs.mkdir('dir'))
-//   .then(() => fs.writeFile('file.txt', 'hello world'))
-//   .then(() => fs.readdir(fs.getRoot()))
-//   .then((res) => fs.readdir(fs.getRoot()))
-//   .then( ret => console.log(ret))
-//
-  // fs.init({type: window.TEMPORARY, bytes: 5 * 1024 * 1024})
-  // .then(fs => makeFilesTree(fs));
-  
+const pwriteAndRead = () => {
+  fs.writeFile('/test3.txt', 'text3', function(writeerr) {
+    fs.readFile('/test2.txt', function(readerr, contents) {
+      console.log(contents.toString());
+    });
+  });
+};
 
-  // fs.mkdirSync('/tmp').then( el => console.log(`directory created: ${el}` ) );
-//   downloadNpm(
-//   'file-loader@^0.11.2', // for example, express@4.0.0-rc4 or tape@latest etc
-//   '/tmp' // the path to download
-// ).then(() => {console.log('downloaded !!!')}, () => {console.log('ERROR with loading')} )
-// };
+const preadDir = (dir) => {
+  pfs.readdirAsync(dir)
+  .then(fileNamesArr => {
+    console.log(fileNamesArr);
+  })
+  .catch(err => {
+    console.log('pread failed', err);
+  });
+};
 
-const loadCode = () => {
-  return null;
+const logGet = (dir) => {
+  getAllFiles(dir)
+  .then(fileStats => {
+    console.log(fileStats);
+  });
 };
 
 const MainView = ({ code, snapshots, selectSnapshot }) => (
   <div className="container-fluid">
     <div className="row">
       <div className="col-md-12">
-        <h1>NAVBAR</h1>    
-        <FileTree directory={'/'} fs={fs} />
+        <h1>NAVBAR</h1>
       </div>
-      <button id="init" type="button" onClick={() => { initializeFS();}}> Init </button>
-      <button id="load" type="button" onClick={() => { createFileSystem();}}> Load </button>
-      <button id="writeF" type="button" onClick={() => { writeF('/test22.txt');}}> writeF </button>
-      <button id="readF" type="button" onClick={() => { readF('/test22.txt');}}> readF </button>
-      <button id="show" type="button" onClick={() => { renderTree() }}> show </button>
-      
+      <button id="write1" type="button" onClick={() => writeNum('1')} > write1 </button>
+      <button id="write2" type="button" onClick={() => writeNum('2')} > write2 </button>
+      <button id="read1" type="button" onClick={() => readNum('1')} > read1 </button>
+      <button id="read2" type="button" onClick={() => readNum('2')} > read2 </button>
+      <button id="read" type="button" onClick={() => readDir('/')} > dir </button>
     </div>
+    <div>
+      <h5>Promisified buttons</h5>
+      <button id="write1" type="button" onClick={() => writeNum('1')} > write1 </button>
+      <button id="write2" type="button" onClick={() => writeNum('2')} > write2 </button>
+      <button id="read1" type="button" onClick={() => readNum('1')} > read1 </button>
+      <button id="read2" type="button" onClick={() => readNum('2')} > read2 </button>
+      <button id="read" type="button" onClick={() => preadDir('/')} > dir </button>
+      <button id="get" type="button" onClick={() => logGet('/')} > get </button>
+    </div>
+    <FileTree directory={'/'} />
     <div className="row">
       <div className="col-md-3">
         <Sidebar snapshots={snapshots} selectSnapshot={selectSnapshot} />
@@ -117,9 +120,6 @@ const MainView = ({ code, snapshots, selectSnapshot }) => (
   </div>
 );
 
-
-
-
 const mapStateToProps = ({ code, snapshots, selectSnapshot }) => ({
   code: 'class test{};',
   snapshots: { list: [], 
@@ -131,3 +131,4 @@ const mapDispatch = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatch)(MainView);
+
