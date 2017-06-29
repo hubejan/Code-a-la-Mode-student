@@ -1,4 +1,4 @@
-import React, { Link } from 'react';
+import React, { Link, Component } from 'react';
 import CodeView from './CodeView';
 import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
@@ -82,48 +82,66 @@ const logGet = (dir) => {
   });
 };
 
-const MainView = ({ code, snapshots, selectSnapshot }) => (
-  <div className="container-fluid">
-    <div className="row">
-      <div className="col-md-12">
-        <h1>NAVBAR</h1>
-      </div>
-      <button id="write1" type="button" onClick={() => writeNum('1')} > write1 </button>
-      <button id="write2" type="button" onClick={() => writeNum('2')} > write2 </button>
-      <button id="read1" type="button" onClick={() => readNum('1')} > read1 </button>
-      <button id="read2" type="button" onClick={() => readNum('2')} > read2 </button>
-      <button id="read" type="button" onClick={() => readDir('/')} > dir </button>
-    </div>
-    <div>
-      <h5>Promisified buttons</h5>
-      <button id="write1" type="button" onClick={() => writeNum('1')} > write1 </button>
-      <button id="write2" type="button" onClick={() => writeNum('2')} > write2 </button>
-      <button id="read1" type="button" onClick={() => readNum('1')} > read1 </button>
-      <button id="read2" type="button" onClick={() => readNum('2')} > read2 </button>
-      <button id="read" type="button" onClick={() => preadDir('/')} > dir </button>
-      <button id="get" type="button" onClick={() => logGet('/')} > get </button>
-    </div>
-    <FileTree directory={'/'} />
-    <div className="row">
-      <div className="col-md-3">
-        <Sidebar snapshots={snapshots} selectSnapshot={selectSnapshot} />
-      </div>
-      <div>
-      </div>
-      <div className="col-md-9">
-        <h1>Lecture</h1>
+const returnGet = (dir) => {
+  return getAllFiles(dir)
+  .then(files => files);
+};
+
+// code, snapshots, selectSnapshot, files 
+class MainView extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillMount() {
+    return getAllFiles('/');
+  }
+
+  render() {
+    return (
+      <div className="container-fluid">
         <div className="row">
-          <CodeView />
+          <div className="col-md-12">
+            <h1>NAVBAR</h1>
+          </div>
+          <button id="write1" type="button" onClick={() => writeNum('1')} > write1 </button>
+          <button id="write2" type="button" onClick={() => writeNum('2')} > write2 </button>
+          <button id="read1" type="button" onClick={() => readNum('1')} > read1 </button>
+          <button id="read2" type="button" onClick={() => readNum('2')} > read2 </button>
+          <button id="read" type="button" onClick={() => readDir('/')} > dir </button>
+        </div>
+        <div>
+          <h5>Promisified buttons</h5>
+          <button id="write1" type="button" onClick={() => writeNum('1')} > write1 </button>
+          <button id="write2" type="button" onClick={() => writeNum('2')} > write2 </button>
+          <button id="read1" type="button" onClick={() => readNum('1')} > read1 </button>
+          <button id="read2" type="button" onClick={() => readNum('2')} > read2 </button>
+          <button id="read" type="button" onClick={() => preadDir('/')} > dir </button>
+          <button id="get" type="button" onClick={() => logGet('/')} > get </button>
+        </div>
+        {/*<FileTree files={this.props.files} /> */}
+        <div className="row">
+          <div className="col-md-3">
+            <Sidebar snapshots={this.props.snapshots} selectSnapshot={this.props.selectSnapshot} />
+          </div>
+          <div>
+          </div>
+          <div className="col-md-9">
+            <h1>Lecture</h1>
+            <div className="row">
+              <CodeView />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-);
-
+    );
+  }
+}
 const mapStateToProps = ({ code, snapshots, selectSnapshot }) => ({
   code: 'class test{};',
   snapshots: { list: [], 
                selected: {}},
+  // files: getAllFiles('/')
 });
 
 const mapDispatch = dispatch => ({

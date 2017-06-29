@@ -27,13 +27,15 @@ const fs = Promise.promisifyAll(require('fs'));
 const getAllFiles = (dir) => {
   return fs.readdirAsync(dir)
   .then(fileNamesArr => {
+    console.log('fileNamesArr', fileNamesArr);
     const fileStatPromises = fileNamesArr.map(fileName => {
       return fs.statAsync(dir + '/' + fileName)
       .then(stats => {
+        console.log('stats', stats);
         const file = {};
         file.filePath = dir + '/' + fileName;
         file.isDirectory = !stats.isFile();
-        if (stats.isDirectory == true) {
+        if (stats.isDirectory === true) {
           return getAllFiles(file.filePath)
           .then(fileNamesSubArr => {
             file.files = fileNamesSubArr;
