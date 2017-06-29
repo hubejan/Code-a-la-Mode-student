@@ -4,9 +4,11 @@ import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
 import Navbar from './Navbar';
 import store from '../store';
+import FileTree from 'react-filetree-electron';
 //  import fs from 'download-npm'
 // import fs from 'fs-es6';
-import fs from 'bro-fs';
+// import fs from 'bro-fs';
+//import fs from ''
 
 const logSuccess = (value) => console.log(`Success with: ${value} !!!`)
 
@@ -19,12 +21,39 @@ const makeFilesTree = (fileSystem) => {
 
 
 const createFileSystem  = () => {
-fs.init({type: window.TEMPORARY, bytes: 5 * 1024 * 1024})
-  .then(() => fs.mkdir('dir'))
-  .then(() => fs.writeFile('file.txt', 'hello world'))
-  .then(() => fs.readdir(fs.getRoot()))
-  .then((res) => fs.readdir(fs.getRoot()))
-  .then( ret => console.log(ret))
+var lsfs = new BrowserFS.FileSystem.LocalStorage();
+  // Initialize it as the root file system.
+  BrowserFS.initialize(lsfs);
+
+  var fs = require('fs');
+//   fs.writeFileSync('/test22.txt', 'Cool, I can do this in the browser!', function(err) {
+//     console.log(`File created ? ${fs}`)
+//     console.dir(fs)
+//   fs.readFile('/test22.txt', function(err, contents) {
+//     // console.log(contents.toString());
+//     console.log(contents);
+//   });
+// });
+// fs.mkdirSync('/');
+fs.writeFileSync('/test22.txt', 'Cool, I can do this in the browser!');
+fs.readFile('/test22.txt', function(err, contents) {
+    console.log(contents.toString());
+    // console.log(contents);
+  });
+
+
+console.log(fs.readdirSync('/'))
+//  (ret) => {console.log(`Directory entries: ${ret}`)})
+
+
+//
+// fs.init({type: window.TEMPORARY, bytes: 5 * 1024 * 1024})
+//   .then(() => fs.mkdir('dir'))
+//   .then(() => fs.writeFile('file.txt', 'hello world'))
+//   .then(() => fs.readdir(fs.getRoot()))
+//   .then((res) => fs.readdir(fs.getRoot()))
+//   .then( ret => console.log(ret))
+//
   // fs.init({type: window.TEMPORARY, bytes: 5 * 1024 * 1024})
   // .then(fs => makeFilesTree(fs));
   
@@ -45,6 +74,7 @@ const MainView = ({ code, snapshots, selectSnapshot }) => (
     <div className="row">
       <div className="col-md-12">
         <h1>NAVBAR</h1>    
+        <FileTree directory={'/'} />
       </div>
       <button id="load" type="button" onClick={() => { createFileSystem();}}> Load </button>
     </div>
