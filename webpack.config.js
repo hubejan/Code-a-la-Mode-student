@@ -11,7 +11,15 @@ module.exports = {
   context: __dirname,
   devtool: 'source-map',
   resolve: {
-  extensions: ['.js', '.jsx', '.json', '*']
+    extensions: ['.js', '.jsx', '.json', '*'],
+    alias: {
+      'fs': 'browserfs/dist/shims/fs.js',
+      'buffer': 'browserfs/dist/shims/buffer.js',
+      'path': 'browserfs/dist/shims/path.js',
+      'processGlobal': 'browserfs/dist/shims/process.js',
+      'bufferGlobal': 'browserfs/dist/shims/bufferGlobal.js',
+      'bfsGlobal': require.resolve('browserfs')    
+    }
   },
   module: {
     rules: [{
@@ -34,5 +42,10 @@ module.exports = {
   },
   plugins: [
     new LiveReloadPlugin({appendScriptTag: true}),
-  ]
+    new webpack.ProvidePlugin({ BrowserFS: 'bfsGlobal', process: 'processGlobal', Buffer: 'bufferGlobal' })
+  ],
+  node: {
+    process: false,
+    Buffer: false
+  }
 };

@@ -21,6 +21,7 @@
     "bootstrap-loader": "^2.1.0",
     "bootstrap-social": "^5.1.1",
     "bro-fs": "^0.1.12",
+    "browserfs": "file:../electrontest/BrowserFS",
     "connect-session-sequelize": "^4.1.0",
     "download-npm": "^1.0.0-rc2",
     "express": "^4.15.2",
