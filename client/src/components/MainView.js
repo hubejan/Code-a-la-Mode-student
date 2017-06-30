@@ -110,7 +110,6 @@ const MainView = ({ code, snapshots, selectSnapshot }) => (
     <div className="row">
       <div className="col-md-12">
         <h1>NAVBAR</h1>    
-        <FileTree directory={'/'} fs={fs} />
       </div>
       <button id="init" type="button" onClick={() => { initializeFS();}}> Init </button>
       <button id="load" type="button" onClick={() => { createFileSystem();}}> Load </button>
