@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MainView from '../components/MainView';
-import JoinRoom from '../components/JoinRoom';
+import JoinRoom from '../containers/JoinRoomContainer';
 
 const Home = ({ socket }) =>
   socket
-    ? <MainView leaveRoom={leaveRoom} /> 
-    : <JoinRoom joinRoom={joinRoom} />
+    ? <MainView socket={socket} leaveRoom={leaveRoom} /> 
+    : <JoinRoomContainer joinRoom={joinRoom} />
 
 const mapStateToProps = (state) => {
   return {
