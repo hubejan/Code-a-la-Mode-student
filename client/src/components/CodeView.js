@@ -5,6 +5,7 @@ import 'brace/mode/javascript';
 import 'brace/theme/solarized_dark';
 import io from 'socket.io-client';
 import Sidebar from './Sidebar';
+import TicketSubmitContainer from '../containers/TicketSubmitContainer';
 
 export default class CodeView extends Component {
   constructor(props) {
@@ -13,25 +14,19 @@ export default class CodeView extends Component {
       socket: null,
       data: '',
     };
-
-    this.sendTicket = this.sendTicket.bind(this);
-      //Brian's IP from 11th floor 172.16.21.52:3030
-      //                25th floor 172.16.25.125:3030 
+    //Brian's IP from 11th floor 172.16.21.52:3030
+    //                25th floor 172.16.25.125:3030
   }
 
   componentDidMount() {
+    // PK plan proposal: have an IP input landing page to 'join a room'
+    // IP and socket can be set in redux store
+    // this is fine for testing tho
     this.setState({ socket: io('localhost:3030') },
       () => { this.state.socket.on('editorChanges', data => {
         this.setState({data});
       });
     });
-  }
-
-  sendTicket() {
-    const question = {
-      question: 'hello?'
-    };
-    this.state.socket.emit('newTicket', question);
   }
 
   render() {
@@ -48,8 +43,8 @@ export default class CodeView extends Component {
             <button id="makeSnapshot" type="button" >Snapshot</button>
             <button id="next" type="button" >Next</button>
             <button id="last" type="button" >Last</button>
-            <button id="ticket" type="button" onClick={this.sendTicket}> send Ticket </button>
           </div>
+          <TicketSubmitContainer socket={this.state.socket} />
           <AceEditor value={this.state.data} mode="javascript" theme="solarized_dark" />
       </div>
     );
