@@ -8,6 +8,8 @@ import App from './app.js';
 
 //load main css
 import './public/stylesheets/index.scss';
+// init clientside filesystem
+// import './utils/setupFS';
 
 
 ReactDOM.render(
