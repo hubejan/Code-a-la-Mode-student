@@ -1,4 +1,4 @@
-import React, { Link } from 'react';
+import React, { Link, Component } from 'react';
 import CodeView from './CodeView';
 import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
@@ -131,6 +131,7 @@ const mapStateToProps = ({ code, snapshots, selectSnapshot }) => ({
   code: 'class test{};',
   snapshots: { list: [],
                selected: {}},
+  // files: getAllFiles('/')
 });
 
 const mapDispatch = dispatch => ({

@@ -35,8 +35,8 @@ export default class FileTree extends Component {
     // .catch(console.error);
   }
 
-  componentWillReceiveProps({ directory, fs }) {
-    return directory && fs && getAllFiles(directory)
+  componentWillReceiveProps({ directory }) {
+    return directory && getAllFiles(directory)
     .then(files => this.setState({ files }))
     .catch(console.error);
   }

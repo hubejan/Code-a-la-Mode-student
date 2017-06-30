@@ -41918,6 +41918,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
@@ -41955,6 +41957,12 @@ var _fs = __webpack_require__(181);
 var _fs2 = _interopRequireDefault(_fs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var pfs = _bluebird2.default.promisifyAll(_fs2.default);
 
@@ -42027,144 +42035,168 @@ var logGet = function logGet(dir) {
   });
 };
 
-var MainView = function MainView(_ref) {
-  var code = _ref.code,
-      snapshots = _ref.snapshots,
-      selectSnapshot = _ref.selectSnapshot;
-  return _react2.default.createElement(
-    'div',
-    { className: 'container-fluid' },
-    _react2.default.createElement(
-      'div',
-      { className: 'row' },
-      _react2.default.createElement(
+var returnGet = function returnGet(dir) {
+  return (0, _fileFunctions.getAllFiles)(dir).then(function (files) {
+    return files;
+  });
+};
+
+// code, snapshots, selectSnapshot, files 
+
+var MainView = function (_Component) {
+  _inherits(MainView, _Component);
+
+  function MainView(props) {
+    _classCallCheck(this, MainView);
+
+    return _possibleConstructorReturn(this, (MainView.__proto__ || Object.getPrototypeOf(MainView)).call(this, props));
+  }
+
+  _createClass(MainView, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      return (0, _fileFunctions.getAllFiles)('/');
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
         'div',
-        { className: 'col-md-12' },
+        { className: 'container-fluid' },
         _react2.default.createElement(
-          'h1',
-          null,
-          'NAVBAR'
-        )
-      ),
-      _react2.default.createElement(
-        'button',
-        { id: 'write1', type: 'button', onClick: function onClick() {
-            return writeNum('1');
-          } },
-        ' write1 '
-      ),
-      _react2.default.createElement(
-        'button',
-        { id: 'write2', type: 'button', onClick: function onClick() {
-            return writeNum('2');
-          } },
-        ' write2 '
-      ),
-      _react2.default.createElement(
-        'button',
-        { id: 'read1', type: 'button', onClick: function onClick() {
-            return readNum('1');
-          } },
-        ' read1 '
-      ),
-      _react2.default.createElement(
-        'button',
-        { id: 'read2', type: 'button', onClick: function onClick() {
-            return readNum('2');
-          } },
-        ' read2 '
-      ),
-      _react2.default.createElement(
-        'button',
-        { id: 'read', type: 'button', onClick: function onClick() {
-            return readDir('/');
-          } },
-        ' dir '
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(
-        'h5',
-        null,
-        'Promisified buttons'
-      ),
-      _react2.default.createElement(
-        'button',
-        { id: 'write1', type: 'button', onClick: function onClick() {
-            return writeNum('1');
-          } },
-        ' write1 '
-      ),
-      _react2.default.createElement(
-        'button',
-        { id: 'write2', type: 'button', onClick: function onClick() {
-            return writeNum('2');
-          } },
-        ' write2 '
-      ),
-      _react2.default.createElement(
-        'button',
-        { id: 'read1', type: 'button', onClick: function onClick() {
-            return readNum('1');
-          } },
-        ' read1 '
-      ),
-      _react2.default.createElement(
-        'button',
-        { id: 'read2', type: 'button', onClick: function onClick() {
-            return readNum('2');
-          } },
-        ' read2 '
-      ),
-      _react2.default.createElement(
-        'button',
-        { id: 'read', type: 'button', onClick: function onClick() {
-            return preadDir('/');
-          } },
-        ' dir '
-      ),
-      _react2.default.createElement(
-        'button',
-        { id: 'get', type: 'button', onClick: function onClick() {
-            return logGet('/');
-          } },
-        ' get '
-      )
-    ),
-    _react2.default.createElement(_FileTreeContainer2.default, { directory: '/' }),
-    _react2.default.createElement(
-      'div',
-      { className: 'row' },
-      _react2.default.createElement(
-        'div',
-        { className: 'col-md-3' },
-        _react2.default.createElement(_Sidebar2.default, { snapshots: snapshots, selectSnapshot: selectSnapshot })
-      ),
-      _react2.default.createElement('div', null),
-      _react2.default.createElement(
-        'div',
-        { className: 'col-md-9' },
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-md-12' },
+            _react2.default.createElement(
+              'h1',
+              null,
+              'NAVBAR'
+            )
+          ),
+          _react2.default.createElement(
+            'button',
+            { id: 'write1', type: 'button', onClick: function onClick() {
+                return writeNum('1');
+              } },
+            ' write1 '
+          ),
+          _react2.default.createElement(
+            'button',
+            { id: 'write2', type: 'button', onClick: function onClick() {
+                return writeNum('2');
+              } },
+            ' write2 '
+          ),
+          _react2.default.createElement(
+            'button',
+            { id: 'read1', type: 'button', onClick: function onClick() {
+                return readNum('1');
+              } },
+            ' read1 '
+          ),
+          _react2.default.createElement(
+            'button',
+            { id: 'read2', type: 'button', onClick: function onClick() {
+                return readNum('2');
+              } },
+            ' read2 '
+          ),
+          _react2.default.createElement(
+            'button',
+            { id: 'read', type: 'button', onClick: function onClick() {
+                return readDir('/');
+              } },
+            ' dir '
+          )
+        ),
         _react2.default.createElement(
-          'h1',
+          'div',
           null,
-          'Lecture'
+          _react2.default.createElement(
+            'h5',
+            null,
+            'Promisified buttons'
+          ),
+          _react2.default.createElement(
+            'button',
+            { id: 'write1', type: 'button', onClick: function onClick() {
+                return writeNum('1');
+              } },
+            ' write1 '
+          ),
+          _react2.default.createElement(
+            'button',
+            { id: 'write2', type: 'button', onClick: function onClick() {
+                return writeNum('2');
+              } },
+            ' write2 '
+          ),
+          _react2.default.createElement(
+            'button',
+            { id: 'read1', type: 'button', onClick: function onClick() {
+                return readNum('1');
+              } },
+            ' read1 '
+          ),
+          _react2.default.createElement(
+            'button',
+            { id: 'read2', type: 'button', onClick: function onClick() {
+                return readNum('2');
+              } },
+            ' read2 '
+          ),
+          _react2.default.createElement(
+            'button',
+            { id: 'read', type: 'button', onClick: function onClick() {
+                return preadDir('/');
+              } },
+            ' dir '
+          ),
+          _react2.default.createElement(
+            'button',
+            { id: 'get', type: 'button', onClick: function onClick() {
+                return logGet('/');
+              } },
+            ' get '
+          )
         ),
         _react2.default.createElement(
           'div',
           { className: 'row' },
-          _react2.default.createElement(_CodeView2.default, null)
+          _react2.default.createElement(
+            'div',
+            { className: 'col-md-3' },
+            _react2.default.createElement(_Sidebar2.default, { snapshots: this.props.snapshots, selectSnapshot: this.props.selectSnapshot })
+          ),
+          _react2.default.createElement('div', null),
+          _react2.default.createElement(
+            'div',
+            { className: 'col-md-9' },
+            _react2.default.createElement(
+              'h1',
+              null,
+              'Lecture'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'row' },
+              _react2.default.createElement(_CodeView2.default, null)
+            )
+          )
         )
-      )
-    )
-  );
-};
+      );
+    }
+  }]);
 
-var mapStateToProps = function mapStateToProps(_ref2) {
-  var code = _ref2.code,
-      snapshots = _ref2.snapshots,
-      selectSnapshot = _ref2.selectSnapshot;
+  return MainView;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(_ref) {
+  var code = _ref.code,
+      snapshots = _ref.snapshots,
+      selectSnapshot = _ref.selectSnapshot;
   return {
     code: 'class test{};',
     snapshots: { list: [],
@@ -75193,10 +75225,9 @@ var FileTree = function (_Component) {
     value: function componentWillReceiveProps(_ref) {
       var _this3 = this;
 
-      var directory = _ref.directory,
-          fs = _ref.fs;
+      var directory = _ref.directory;
 
-      return directory && fs && (0, _fileFunctions.getAllFiles)(directory).then(function (files) {
+      return directory && (0, _fileFunctions.getAllFiles)(directory).then(function (files) {
         return _this3.setState({ files: files });
       }).catch(console.error);
     }
@@ -75329,12 +75360,14 @@ var fs = Promise.promisifyAll(__webpack_require__(181));
 
 var getAllFiles = function getAllFiles(dir) {
   return fs.readdirAsync(dir).then(function (fileNamesArr) {
+    console.log('fileNamesArr', fileNamesArr);
     var fileStatPromises = fileNamesArr.map(function (fileName) {
       return fs.statAsync(dir + '/' + fileName).then(function (stats) {
+        console.log('stats', stats);
         var file = {};
         file.filePath = dir + '/' + fileName;
         file.isDirectory = !stats.isFile();
-        if (stats.isDirectory == true) {
+        if (stats.isDirectory === true) {
           return getAllFiles(file.filePath).then(function (fileNamesSubArr) {
             file.files = fileNamesSubArr;
             return file.files;
