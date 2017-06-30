@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 node_modules
 */dist/*
+=======
+client/src/public/dist
+>>>>>>> master

@@ -98,6 +98,10 @@ const MainView = ({ code, snapshots, selectSnapshot }) => (
         <button id="read1" type="button" onClick={() => readNum('1')} > read1 </button>
         <button id="read2" type="button" onClick={() => readNum('2')} > read2 </button>
         <button id="read" type="button" onClick={() => readDir('/')} > dir </button>
+    </div>
+    <div className="row">
+      <div className="col-md-3">
+        <Sidebar snapshots={snapshots} selectSnapshot={selectSnapshot} />
       </div>
       <div>
         <h5>Promisified buttons</h5>
@@ -124,7 +128,7 @@ const MainView = ({ code, snapshots, selectSnapshot }) => (
       </div>
     </div>
   </div>
-
+</div>
 );
 
 const mapStateToProps = ({ code, snapshots, selectSnapshot }) => ({
