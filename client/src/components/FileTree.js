@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Directory from './Directory';
 import File from './File';
-import { getAllFiles } from '../utils/file-functions';
+import { getAllFiles, initializationPromise } from '../utils/file-functions';
 import { mergeStyleObjects } from '../utils/helpers';
 import defaultStyles from '../utils/defaultStyles';
 
@@ -17,10 +17,22 @@ export default class FileTree extends Component {
   }
 
   componentDidMount() {
+    console.log('entered didmount');
     return this.props.directory && this.props.directory.length &&
-    getAllFiles(this.props.directory)
-    .then(files => this.setState({ files }))
-    .catch(console.error);
+    initializationPromise(this.props.directory)
+    .then(() => {
+      getAllFiles(this.props.directory)
+        .then(files => this.setState({ files }))
+        .catch(console.error);
+    })
+    .catch(error => console.error(error));
+
+    // getAllFiles(this.props.directory)
+    // .then(files => {
+    //   console.log('this is FILES: ', files)
+    //   return this.setState({ files })
+    // })
+    // .catch(console.error);
   }
 
   componentWillReceiveProps({ directory, fs }) {
