@@ -17,28 +17,25 @@ export default class FileTree extends Component {
   }
 
   componentDidMount() {
-    console.log('entered didmount');
     return this.props.directory && this.props.directory.length &&
-    initializationPromise(this.props.directory)
-    .then(() => {
-      getAllFiles(this.props.directory)
-        .then(files => this.setState({ files }))
-        .catch(console.error);
-    })
-    .catch(error => console.error(error));
-
-    // getAllFiles(this.props.directory)
-    // .then(files => {
-    //   console.log('this is FILES: ', files)
-    //   return this.setState({ files })
-    // })
-    // .catch(console.error);
+      initializationPromise(this.props.directory)
+        .then(() => {
+          getAllFiles(this.props.directory)
+            .then(files => this.setState({ files }))
+            .catch(console.error);
+        })
+        .catch(error => console.error(error));
   }
 
   componentWillReceiveProps({ directory }) {
-    return directory && getAllFiles(directory)
-    .then(files => this.setState({ files }))
-    .catch(console.error);
+    // return directory &&
+    //   initializationPromise(this.props.directory)
+    //     .then(() => {
+    //       getAllFiles(this.props.directory)
+    //         .then(files => this.setState({ files }))
+    //         .catch(console.error);
+    //     })
+    //     .catch(error => console.error(error));
   }
 
   setVisibility(filePath) {

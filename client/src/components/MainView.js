@@ -9,14 +9,17 @@ import { getAllFiles } from '../utils/file-functions';
 import Promise from 'bluebird';
 import fs from 'fs';
 const pfs = Promise.promisifyAll(fs);
-
+let folder;
 const writeNum = (num) => {
-  const test = `/OHMYGOD/test${num}`;
+  const test = `/OMG${folder}/test${num}`;
   fs.writeFile(`${test}.txt`, `${test}`, function(writeErr) {
-    console.log(`wrote ${test}`);
+    console.log(`wrote ${test}.txt`);
   });
-  fs.mkdir(`OHMYGOD`, function(writeErr) {
-    console.log(`wrote ${test}`);
+};
+const writeFolder = () => {
+  folder = Math.floor(Math.random()*100);
+  fs.mkdir(`OMG${folder}`, function(writeErr) {
+    console.log(`wrote OMG${folder}`);
   });
 };
 
@@ -93,8 +96,8 @@ const MainView = ({ code, snapshots, selectSnapshot }) => (
         <div className="col-md-12">
           <h1>NAVBAR</h1>
         </div>
-        <button id="write1" type="button" onClick={() => writeNum('1')} > write1 </button>
-        <button id="write2" type="button" onClick={() => writeNum('2')} > write2 </button>
+        <button id="write1" type="button" onClick={() => writeNum(Math.floor(Math.random()*100))} > write1 </button>
+        <button id="write2" type="button" onClick={() => writeFolder()} > write2 </button>
         <button id="read1" type="button" onClick={() => readNum('1')} > read1 </button>
         <button id="read2" type="button" onClick={() => readNum('2')} > read2 </button>
         <button id="read" type="button" onClick={() => readDir('/')} > dir </button>
