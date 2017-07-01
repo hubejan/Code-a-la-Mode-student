@@ -11,22 +11,24 @@ export default class CodeView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      socket: null,
-      data: '',
+      data: ''
     };
     //Brian's IP from 11th floor 172.16.21.52:3030
     //                25th floor 172.16.25.125:3030
   }
 
   componentDidMount() {
-    // PK plan proposal: have an IP input landing page to 'join a room'
-    // IP and socket can be set in redux store
-    // this is fine for testing tho
-    this.setState({ socket: io('localhost:3030') },
-      () => { this.state.socket.on('editorChanges', data => {
-        this.setState({data});
-      });
+    // Q from PK: should we just lift this up to the parent component?
+    // we could make this component dumber by passing socket/data from above?
+    this.props.socket.on('editorChanges', data => {
+      this.setState({ data } );
     });
+  }
+
+  componentWillUnmount() {
+    // socket.io docs are terrible
+    // this removes all callbacks built via socket.on('editorChanges', cb)
+    this.props.socket.removeAllListeners('editorChanges');
   }
 
   render() {
