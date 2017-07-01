@@ -6,6 +6,8 @@ import 'brace/theme/solarized_dark';
 import io from 'socket.io-client';
 import Sidebar from './Sidebar';
 import TicketSubmitContainer from '../containers/TicketSubmitContainer';
+import FileRequestContainer from '../containers/FileRequestContainer';
+
 
 export default class CodeView extends Component {
   constructor(props) {
@@ -23,8 +25,9 @@ export default class CodeView extends Component {
     // IP and socket can be set in redux store
     // this is fine for testing tho
     this.setState({ socket: io('localhost:3030') },
-      () => { this.state.socket.on('editorChanges', data => {
-        this.setState({data});
+      () => {
+        return this.state.socket.on('editorChanges', data => {
+          return this.setState({data});
       });
     });
   }
@@ -45,7 +48,19 @@ export default class CodeView extends Component {
             <button id="last" type="button" >Last</button>
           </div>
           <TicketSubmitContainer socket={this.state.socket} />
-          <AceEditor value={this.state.data} mode="javascript" theme="solarized_dark" />
+          <FileRequestContainer socket={this.state.socket} />
+          <AceEditor value={this.state.data}
+            mode="javascript"
+            theme="solarized_dark"
+            editorProps={{ $blockScrolling: Infinity }}
+          />
+          <AceEditor
+            value={"2nd editor"}
+            mode="javascript"
+            theme="solarized_dark"
+            editorProps={{ $blockScrolling: Infinity }}
+          />
+
       </div>
     );
   }
