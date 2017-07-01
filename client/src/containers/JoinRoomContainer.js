@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import JoinRoom from '../components/JoinRoom';
 
-export default class TicketSubmitContainer extends Component {
+export default class JoinRoomContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {

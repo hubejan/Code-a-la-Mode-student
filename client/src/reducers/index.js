@@ -7,7 +7,7 @@ import userReducer from './user';
 import snapshotsReducer from './snapshots-reducer';
 import liveCodeReducer from './liveCode-reducer';
 import fileTree from './file-tree.js';
-import roomReducer from './room-reducer';
+import room from './room-reducer';
 
 
 /* Combine & Export Reducers to Store */

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import MainView from './MainView';
+import Home from '../containers/HomeContainer';
 import Sidebar from './Sidebar';
 
 const Main = () => (
   <main>
     <Switch>
-      <Route path="/" component={MainView} />
+      <Route path="/" component={Home} />
       <Route path="/main" component={Sidebar} />
     </Switch>
   </main>

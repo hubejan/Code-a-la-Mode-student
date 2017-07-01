@@ -4,12 +4,12 @@ const defaultState = {
   socket: null
 };
 
-function roomReducer(state, action) {
+export default function roomReducer(state = defaultState, action) {
   switch (action.type) {
     case JOIN_ROOM:
-      return { ...state, socket: action.socket }
+      return { socket: action.socket }
     case LEAVE_ROOM:
-      return { ...state, socket: null }
+      return { socket: null }
     default:
       return state;
   }

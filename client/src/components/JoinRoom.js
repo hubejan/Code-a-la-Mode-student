@@ -20,3 +20,5 @@ const JoinRoom = ({ handleChange, handleSubmit, inputValue }) => {
     </div>
   );
 }
+
+export default JoinRoom;

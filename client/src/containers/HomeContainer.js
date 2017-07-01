@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MainView from '../components/MainView';
 import JoinRoom from '../containers/JoinRoomContainer';
+import { setSocket, disconnect } from '../action-creators/room-actions';
 
-const Home = ({ socket }) =>
-  socket
-    ? <MainView socket={socket} leaveRoom={leaveRoom} /> 
-    : <JoinRoomContainer joinRoom={joinRoom} />
+const Home = ({ socket, joinRoom, leaveRoom }) => socket
+  ? <MainView socket={socket} leaveRoom={leaveRoom} /> 
+  : <JoinRoom joinRoom={joinRoom} />
 
 const mapStateToProps = (state) => {
   return {
-    socket: state.socket;
+    socket: state.room.socket
   }
 }
 
