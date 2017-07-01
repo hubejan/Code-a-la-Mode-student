@@ -40,7 +40,6 @@ const getAllFiles = (dir) => {
             return file;
           });
       });
-      console.log(fileStatPromises);
       return Promiseb.all(fileStatPromises);
     });
 };
