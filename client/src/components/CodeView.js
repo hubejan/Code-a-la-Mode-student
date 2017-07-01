@@ -13,23 +13,28 @@ export default class CodeView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      socket: null,
-      data: '',
+      data: ''
     };
     //Brian's IP from 11th floor 172.16.21.52:3030
     //                25th floor 172.16.25.125:3030
   }
 
   componentDidMount() {
-    // PK plan proposal: have an IP input landing page to 'join a room'
-    // IP and socket can be set in redux store
-    // this is fine for testing tho
-    this.setState({ socket: io('localhost:3030') },
-      () => {
-        return this.state.socket.on('editorChanges', data => {
-          return this.setState({data});
-      });
+    // Q from PK: should we just lift this up to the parent component?
+    // we could make this component dumber by passing socket/data from above?
+    this.props.socket.on('editorChanges', data => {
+      this.setState({ data } );
     });
+    // Currently both receiving any requested files and receiving any editor changes
+    // will change the contents of the text editor.
+    // TODO: Need to setup something like multiple text editors (perhaps in tabs)
+    this.props.socket.on('fileContents', data => {this.setState({ data })});
+  }
+
+  componentWillUnmount() {
+    // socket.io docs are terrible
+    // this removes all callbacks built via socket.on('editorChanges', cb)
+    this.props.socket.removeAllListeners('editorChanges');
   }
 
   render() {
@@ -47,20 +52,13 @@ export default class CodeView extends Component {
             <button id="next" type="button" >Next</button>
             <button id="last" type="button" >Last</button>
           </div>
-          <TicketSubmitContainer socket={this.state.socket} />
-          <FileRequestContainer socket={this.state.socket} />
+          <TicketSubmitContainer socket={this.props.socket} />
+          <FileRequestContainer socket={this.props.socket} />
           <AceEditor value={this.state.data}
             mode="javascript"
             theme="solarized_dark"
             editorProps={{ $blockScrolling: Infinity }}
           />
-          <AceEditor
-            value={"2nd editor"}
-            mode="javascript"
-            theme="solarized_dark"
-            editorProps={{ $blockScrolling: Infinity }}
-          />
-
       </div>
     );
   }

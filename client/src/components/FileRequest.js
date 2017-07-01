@@ -4,17 +4,19 @@ import React from 'react';
 const FileRequest = ({ handleChange, handleSubmit, inputValue }) => {
   return (
     <div>
+
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           onChange={handleChange}
           value={inputValue}
-          placeholder="Submit a file request!"
+          placeholder="enter something like /folder/...filename.js"
         />
         <button type="submit" disabled={inputValue.length === 0} >
           SEND
         </button>
       </form>
+          If you don't have /input.js in your ROOT directory, go into the client/src/containers/FileRequestContainer.js and change inputValue to be whatever file path you want to request from your own computer (like /home/hubert/test.js)
     </div>
   );
 };

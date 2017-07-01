@@ -5,7 +5,7 @@ export default class FileRequestContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputValue: ''
+      inputValue: '/test.js'
     };
 
     this.handleChange = this.handleChange.bind(this);
