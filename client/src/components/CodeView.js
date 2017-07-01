@@ -6,6 +6,8 @@ import 'brace/theme/solarized_dark';
 import io from 'socket.io-client';
 import Sidebar from './Sidebar';
 import TicketSubmitContainer from '../containers/TicketSubmitContainer';
+import FileRequestContainer from '../containers/FileRequestContainer';
+
 
 export default class CodeView extends Component {
   constructor(props) {
@@ -23,6 +25,10 @@ export default class CodeView extends Component {
     this.props.socket.on('editorChanges', data => {
       this.setState({ data } );
     });
+    // Currently both receiving any requested files and receiving any editor changes
+    // will change the contents of the text editor.
+    // TODO: Need to setup something like multiple text editors (perhaps in tabs)
+    this.props.socket.on('fileContents', data => {this.setState({ data })});
   }
 
   componentWillUnmount() {
@@ -46,8 +52,13 @@ export default class CodeView extends Component {
             <button id="next" type="button" >Next</button>
             <button id="last" type="button" >Last</button>
           </div>
-          <TicketSubmitContainer socket={this.state.socket} />
-          <AceEditor value={this.state.data} mode="javascript" theme="solarized_dark" />
+          <TicketSubmitContainer socket={this.props.socket} />
+          <FileRequestContainer socket={this.props.socket} />
+          <AceEditor value={this.state.data}
+            mode="javascript"
+            theme="solarized_dark"
+            editorProps={{ $blockScrolling: Infinity }}
+          />
       </div>
     );
   }

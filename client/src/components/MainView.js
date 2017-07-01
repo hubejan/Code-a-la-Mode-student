@@ -8,14 +8,16 @@ import FileTree from '../containers/FileTreeContainer';
 import { getAllFiles } from '../utils/file-functions';
 import Promise from 'bluebird';
 import fs from 'fs';
-
 const writeNum = (num) => {
-  const test = `/OHMYGOD/test${num}`;
+  const test = `/OMG${folder}/test${num}`;
   fs.writeFile(`${test}.txt`, `${test}`, function(writeErr) {
-    console.log(`wrote ${test}`);
+    console.log(`wrote ${test}.txt`);
   });
-  fs.mkdir(`OHMYGOD`, function(writeErr) {
-    console.log(`wrote ${test}`);
+};
+const writeFolder = () => {
+  folder = Math.floor(Math.random()*100);
+  fs.mkdir(`OMG${folder}`, function(writeErr) {
+    console.log(`wrote OMG${folder}`);
   });
 };
 

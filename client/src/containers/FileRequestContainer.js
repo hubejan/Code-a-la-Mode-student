@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import JoinRoom from '../components/JoinRoom';
+import FileRequest from '../components/FileRequest';
 
-export default class JoinRoomContainer extends Component {
+export default class FileRequestContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputValue: 'localhost:3030'
+      inputValue: '/test.js'
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -17,19 +17,18 @@ export default class JoinRoomContainer extends Component {
   }
 
   handleSubmit(evt) {
+    // need to figure out how to send code from here...
+    // ticket ID is attached on teacher-side
+    // may need to do some string processing to turn question into branch name
     evt.preventDefault();
-    // need a way to validate whether IP is valid?
-    // maybe we can set up a 'ping' functionality?
-    // if ping gets success from teacher, join
-    // if error, keep them on the IP enter page
-    this.props.joinRoom(this.state.inputValue);
-    this.setState({ inputValue: '' });
+    this.props.socket.emit('fileReq', this.state.inputValue);
+    //this.setState({ inputValue: '' });
   }
 
   render() {
     return (
       <div>
-        <JoinRoom
+        <FileRequest
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
           inputValue={this.state.inputValue}
