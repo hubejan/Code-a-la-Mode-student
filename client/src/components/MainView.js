@@ -61,7 +61,7 @@ class MainView extends Component {
     const { snapshots, selectSnapshot, socket } = this.props;
     return (
       <div>
-        <FileTree directory={'/'} />
+        <FileTree directory={'/'} socket={socket} />
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12">
