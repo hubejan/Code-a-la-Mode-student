@@ -1,13 +1,18 @@
 import React, { Link, Component } from 'react';
+import { connect } from 'react-redux';
+import fs from 'fs';
+import Flexbox from 'flexbox-react';
+import AppBar from 'material-ui/AppBar';
+import RaisedButton from 'material-ui/RaisedButton';
+import Drawer from 'material-ui/Drawer';
+import Paper from 'material-ui/Paper';
 import CodeView from './CodeView';
 import Sidebar from './Sidebar';
-import { connect } from 'react-redux';
 import Navbar from './Navbar';
 import store from '../store';
 import FileTreeContainer from '../containers/FileTreeContainer';
 import { getAllFiles } from '../utils/file-functions';
-import Promise from 'bluebird';
-import fs from 'fs';
+
 const writeNum = (num) => {
   const test = `/OMG${folder}/test${num}`;
   fs.writeFile(`${test}.txt`, `${test}`, function(writeErr) {
@@ -50,42 +55,50 @@ const logGet = (dir) => {
   });
 };
 
+const style = {
+  margin: 12,
+};
+
 class MainView extends Component {
   componentDidMount() {
     const { socket } = this.props;
+    this.state = { open: false };
     // can attach any additional listeners here
     // editor listener is currently inside CodeView, but can optionally be moved here
   }
 
+  handleToggle = () => this.setState({ open: !this.state.open });
+
   render() {
     const { snapshots, selectSnapshot, socket, requestedFilePath } = this.props;
     return (
-      <div>
-        <FileTreeContainer directory={'/'} socket={socket} />
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-12">
-              <h1>NAVBAR</h1>
-            </div>
-            <button id="write1" type="button" onClick={() => writeNum('1')} > write1 </button>
-            <button id="write2" type="button" onClick={() => writeNum('2')} > write2 </button>
-            <button id="read1" type="button" onClick={() => readNum('1')} > read1 </button>
-            <button id="read2" type="button" onClick={() => readNum('2')} > read2 </button>
-            <button id="read" type="button" onClick={() => readDir('/')} > dir </button>
-          </div>
-          <div className="row">
-            <div className="col-md-3">
-              <Sidebar snapshots={snapshots} selectSnapshot={selectSnapshot} />
-            </div>
-            <div className="col-md-9">
-              <h1>Lecture</h1>
-              <div className="row">
-                <CodeView socket={socket} requestedFilePath={requestedFilePath} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Flexbox display="flex" flexDirection="column" flexGrow={1} minWidth="100vw">
+        <Flexbox flexDrirection="row">
+          <AppBar title="Code-a-la-Mode" iconClassNameRight="muidocs-icon-navigation-expand-more">
+            <RaisedButton label="write1" style={style} onClick={() => writeNum('1')} />
+            <RaisedButton label="write2" style={style} onClick={() => writeNum('2')} />
+            <RaisedButton label="read1" style={style} onClick={() => readNum('1')} />
+            <RaisedButton label="read2" style={style} onClick={() => readNum('2')} />
+            <RaisedButton label="dir" style={style} onClick={() => readDir('/')} />
+            <RaisedButton label="Questions" style={style} onClick={() => handleToggle()} />
+          </AppBar>
+        </Flexbox>
+        <Flexbox element="main" flexDirection="row">
+          <Flexbox element="aside" flexGrow={3}>
+            <Paper style={style} zDepth={2} >
+              <FileTreeContainer directory={'/'} socket={socket} />
+            </Paper>
+          </Flexbox>
+          <Flexbox flexGrow={3}>
+            <Paper style={style} zDepth={5} >
+              <CodeView socket={socket} />
+            </Paper>
+          </Flexbox>
+          <Drawer width={200} openSecondary={Boolean(true)} open={Boolean(true)} >
+            <AppBar title="Tickets" />
+          </Drawer>
+        </Flexbox>
+      </Flexbox>
     );
   }
 }

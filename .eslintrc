@@ -34,6 +34,7 @@
     "no-param-reassign": "warn",
     "indent": "warn",
     "react/forbid-prop-types": "warn",
+    "object-curly-spacing": "warn",
     "promise/param-names": "warn",
     "promise/always-return": "warn",
     "promise/catch-or-return": "warn",
