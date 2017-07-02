@@ -7,7 +7,7 @@ import store from './store.js';
 import App from './app.js';
 
 //load main css
-import './public/stylesheets/index.scss';
+// import './public/stylesheets/index.scss';
 // init clientside filesystem
 // import './utils/setupFS';
 

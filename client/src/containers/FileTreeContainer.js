@@ -2,14 +2,20 @@ import { connect, Provider } from 'react-redux';
 import React, { Component } from 'react';
 
 import FileTree from '../components/FileTree';
-import { toggleVisibility } from '../reducers/file-tree';
+import { toggleVisibility } from '../reducers/fileTree-reducer';
+import { storeFilePath } from '../action-creators/fileTree-actions';
 import store from '../store';
 
-const mapState = state => ({ isVisible: state.fileTree.isVisible });
+const mapStateToProps = state => ({
+  isVisible: state.fileTree.isVisible
+});
 
-const mapDispatch = dispatch => ({ toggleVisibility: filePath => dispatch(toggleVisibility(filePath)) });
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  toggleVisibility: filePath => dispatch(toggleVisibility(filePath)),
+  onFileClick: selectedFile => dispatch(storeFilePath(ownProps.socket, selectedFile))
+});
 
-const ConnectFileTree = connect(mapState, mapDispatch)(FileTree);
+const ConnectFileTree = connect(mapStateToProps, mapDispatchToProps)(FileTree);
 
 export default class extends Component {
   render() {

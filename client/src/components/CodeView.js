@@ -3,11 +3,10 @@ import brace from 'brace';
 import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
 import 'brace/theme/solarized_dark';
-import io from 'socket.io-client';
 import Sidebar from './Sidebar';
 import TicketSubmitContainer from '../containers/TicketSubmitContainer';
 import FileRequestContainer from '../containers/FileRequestContainer';
-
+import { writeFile } from '../utils/file-functions';
 
 export default class CodeView extends Component {
   constructor(props) {
@@ -15,7 +14,7 @@ export default class CodeView extends Component {
     this.state = {
       data: ''
     };
-    //Brian's IP from 11th floor 172.16.21.52:3030
+    // Brian's IP from 11th floor 172.16.21.52:3030
     //                25th floor 172.16.25.125:3030
   }
 
@@ -28,7 +27,12 @@ export default class CodeView extends Component {
     // Currently both receiving any requested files and receiving any editor changes
     // will change the contents of the text editor.
     // TODO: Need to setup something like multiple text editors (perhaps in tabs)
-    this.props.socket.on('fileContents', data => {this.setState({ data })});
+    this.props.socket.on('fileContents', data => {
+      const requestedFilePath = this.props.requestedFilePath.split('/').slice(-1).join('');
+      console.log('before writing to path: ', requestedFilePath);
+      writeFile(requestedFilePath, data);
+      return this.setState({ data });
+    });
   }
 
   componentWillUnmount() {
@@ -45,20 +49,21 @@ export default class CodeView extends Component {
 
     return (
       <div>
-          <div>
-            <button id="first" type="button" >First</button>
-            <button id="prev" type="button" >Prev</button>
-            <button id="makeSnapshot" type="button" >Snapshot</button>
-            <button id="next" type="button" >Next</button>
-            <button id="last" type="button" >Last</button>
-          </div>
-          <TicketSubmitContainer socket={this.props.socket} />
-          <FileRequestContainer socket={this.props.socket} />
-          <AceEditor value={this.state.data}
-            mode="javascript"
-            theme="solarized_dark"
-            editorProps={{ $blockScrolling: Infinity }}
-          />
+        <div>
+          <button id="first" type="button" >First</button>
+          <button id="prev" type="button" >Prev</button>
+          <button id="makeSnapshot" type="button" >Snapshot</button>
+          <button id="next" type="button" >Next</button>
+          <button id="last" type="button" >Last</button>
+        </div>
+        <TicketSubmitContainer socket={this.props.socket} />
+        <FileRequestContainer socket={this.props.socket} />
+        <AceEditor
+          value={this.state.data}
+          mode="javascript"
+          theme="solarized_dark"
+          editorProps={{ $blockScrolling: Infinity }}
+        />
       </div>
     );
   }

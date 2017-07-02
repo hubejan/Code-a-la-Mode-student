@@ -1,3 +1,5 @@
+import { SET_PATH } from '../constants';
+
 const TOGGLE_VISIBILITY = 'TOGGLE_VISIBILITY';
 
 const initialState = {
@@ -10,6 +12,9 @@ const reducer = (state = initialState, action) => {
     case TOGGLE_VISIBILITY:
       newState.isVisible = Object.assign({}, newState.isVisible);
       newState.isVisible[action.filePath] = !newState.isVisible[action.filePath];
+      break;
+    case SET_PATH:
+      newState.requestedFilePath = action.path;
       break;
     default:
       return state;

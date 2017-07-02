@@ -1,3 +1,5 @@
 node_modules
 */dist/*
 client/src/public/dist
+app/main.prod.js
+app/main.prod.js.map

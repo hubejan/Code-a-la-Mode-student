@@ -4,7 +4,7 @@ import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
 import Navbar from './Navbar';
 import store from '../store';
-import FileTree from '../containers/FileTreeContainer';
+import FileTreeContainer from '../containers/FileTreeContainer';
 import { getAllFiles } from '../utils/file-functions';
 import Promise from 'bluebird';
 import fs from 'fs';
@@ -58,10 +58,10 @@ class MainView extends Component {
   }
 
   render() {
-    const { snapshots, selectSnapshot, socket } = this.props;
+    const { snapshots, selectSnapshot, socket, requestedFilePath } = this.props;
     return (
       <div>
-        <FileTree directory={'/'} socket={socket} />
+        <FileTreeContainer directory={'/'} socket={socket} />
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12">
@@ -80,21 +80,23 @@ class MainView extends Component {
             <div className="col-md-9">
               <h1>Lecture</h1>
               <div className="row">
-                <CodeView socket={socket} />
+                <CodeView socket={socket} requestedFilePath={requestedFilePath} />
               </div>
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ code, snapshots, selectSnapshot }) => ({
+const mapStateToProps = ({ code, snapshots, selectSnapshot, fileTree }) => ({
   code: 'class test{};',
-  snapshots: { list: [],
-               selected: {}},
-  // files: getAllFiles('/')
+  snapshots: {
+    list: [],
+    selected: {}
+  },
+  requestedFilePath: fileTree.requestedFilePath
 });
 
 const mapDispatch = dispatch => ({
