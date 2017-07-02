@@ -23,7 +23,7 @@ export default class CodeView extends Component {
     // Q from PK: should we just lift this up to the parent component?
     // we could make this component dumber by passing socket/data from above?
     this.props.socket.on('editorChanges', data => {
-      this.setState({ data } );
+      this.setState({ data });
     });
     // Currently both receiving any requested files and receiving any editor changes
     // will change the contents of the text editor.

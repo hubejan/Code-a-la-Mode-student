@@ -88,7 +88,7 @@ class MainView extends Component {
       <Flexbox element="main" flexDirection="row">
         <Flexbox element="aside" flexGrow={3}>
         <Paper style={style} zDepth={2} >
-          <FileTree directory={'/'} />
+          <FileTree directory={'/'} socket={socket} />
         </Paper>
         </Flexbox>
         <Flexbox flexGrow={3}>
