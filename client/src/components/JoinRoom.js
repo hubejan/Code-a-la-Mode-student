@@ -1,11 +1,12 @@
 import React from 'react';
+import AppBar from 'material-ui/AppBar';
 
 // dev note: this looks almost identical to TicketSubmit, as do the containers
 // could probably refactor into a more generic component later
 const JoinRoom = ({ handleChange, handleSubmit, inputValue }) => {
   return (
     <div>
-      <h2>MODE A LA CODE</h2>
+      <AppBar title="Code-a-la-Mode" iconClassNameRight="muidocs-icon-navigation-expand-more"/>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

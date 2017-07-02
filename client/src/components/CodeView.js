@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 import Sidebar from './Sidebar';
 import TicketSubmitContainer from '../containers/TicketSubmitContainer';
 import FileRequestContainer from '../containers/FileRequestContainer';
-
+import Flexbox from 'flexbox-react';
 
 export default class CodeView extends Component {
   constructor(props) {
@@ -44,22 +44,28 @@ export default class CodeView extends Component {
     const selectSnapshot = (snapshot) => console.log(`Select snapshot: ${snapshot}`);
 
     return (
-      <div>
-          <div>
+      <Flexbox flexDirection="column" minHeight="100vh" >
+        <Flexbox flexDirection="column" minHeight="100vh" >
+          <Flexbox flexDirection="row">
             <button id="first" type="button" >First</button>
             <button id="prev" type="button" >Prev</button>
             <button id="makeSnapshot" type="button" >Snapshot</button>
             <button id="next" type="button" >Next</button>
             <button id="last" type="button" >Last</button>
-          </div>
-          <TicketSubmitContainer socket={this.props.socket} />
-          <FileRequestContainer socket={this.props.socket} />
-          <AceEditor value={this.state.data}
-            mode="javascript"
-            theme="solarized_dark"
-            editorProps={{ $blockScrolling: Infinity }}
-          />
-      </div>
+          </Flexbox>
+          <Flexbox flexDirection="column">
+            <TicketSubmitContainer socket={this.props.socket} />
+            <FileRequestContainer socket={this.props.socket} />
+          </Flexbox>
+          <Flexbox>
+            <AceEditor value={this.state.data}
+              mode="javascript"
+              theme="solarized_dark"
+              editorProps={{ $blockScrolling: Infinity }}
+            />
+          </Flexbox>
+        </Flexbox>
+      </Flexbox>
     );
   }
 }
