@@ -4,7 +4,7 @@ import MainView from '../components/MainView';
 import JoinRoom from '../containers/JoinRoomContainer';
 import { setSocket, disconnect } from '../action-creators/room-actions';
 
-const Home = ({ socket, joinRoom, leaveRoom }) => socket
+const HomeContainer = ({ socket, joinRoom, leaveRoom }) => socket
   ? <MainView socket={socket} leaveRoom={leaveRoom} /> 
   : <JoinRoom joinRoom={joinRoom} />
 
@@ -21,4 +21,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer);
