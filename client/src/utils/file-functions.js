@@ -44,6 +44,8 @@ const getAllFiles = (dir) => {
     });
 };
 
+export const readFile = file => fsp.readFileAsync(file);
+
 module.exports = {
   getAllFiles, initializationPromise
 };
