@@ -8,6 +8,9 @@ import FileTree from '../containers/FileTreeContainer';
 import { getAllFiles } from '../utils/file-functions';
 import Promise from 'bluebird';
 import fs from 'fs';
+import Flexbox from 'flexbox-react';
+import AppBar from 'material-ui/AppBar';
+
 const writeNum = (num) => {
   const test = `/OMG${folder}/test${num}`;
   fs.writeFile(`${test}.txt`, `${test}`, function(writeErr) {
@@ -60,32 +63,25 @@ class MainView extends Component {
   render() {
     const { snapshots, selectSnapshot, socket } = this.props;
     return (
-      <div>
-        <FileTree directory={'/'} />
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-12">
-              <h1>NAVBAR</h1>
-            </div>
-            <button id="write1" type="button" onClick={() => writeNum('1')} > write1 </button>
-            <button id="write2" type="button" onClick={() => writeNum('2')} > write2 </button>
-            <button id="read1" type="button" onClick={() => readNum('1')} > read1 </button>
-            <button id="read2" type="button" onClick={() => readNum('2')} > read2 </button>
-            <button id="read" type="button" onClick={() => readDir('/')} > dir </button>
-          </div>
-          <div className="row">
-            <div className="col-md-3">
-              <Sidebar snapshots={snapshots} selectSnapshot={selectSnapshot} />
-            </div>
-            <div className="col-md-9">
-              <h1>Lecture</h1>
-              <div className="row">
-                <CodeView socket={socket} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <Flexbox display="flex" flexDirection="column" flexGrow={1} minWidth="100vw">
+      <Flexbox flexDrirection="row">
+        <AppBar title="Code-a-la-Mode" iconClassNameRight="muidocs-icon-navigation-expand-more"> 
+        <button id="write1" type="button" onClick={() => writeNum('1')} > write1 </button>
+        <button id="write2" type="button" onClick={() => writeNum('2')} > write2 </button>
+        <button id="read1" type="button" onClick={() => readNum('1')} > read1 </button>
+        <button id="read2" type="button" onClick={() => readNum('2')} > read2 </button>
+        <button id="read" type="button" onClick={() => readDir('/')} > dir </button>
+        </AppBar>
+      </Flexbox>
+      <Flexbox element="main" flexDirection="row">
+        <Flexbox element="aside" flexGrow={3}>
+          <FileTree directory={'/'} />
+        </Flexbox>
+        <Flexbox flexGrow={3}>
+          <CodeView socket={socket} />
+        </Flexbox>
+      </Flexbox>
+    </Flexbox>
     )
   }
 }
