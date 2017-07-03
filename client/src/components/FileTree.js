@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 import Directory from './Directory';
 import File from './File';
-import { getAllFiles, initializationPromise } from '../utils/file-functions';
+import { initializationPromise, getAllFiles, mkDirStructure } from '../utils/file-functions';
 import { mergeStyleObjects } from '../utils/helpers';
 import defaultStyles from '../utils/defaultStyles';
 
@@ -17,13 +17,21 @@ export default class FileTree extends Component {
   }
 
   componentDidMount() {
-    this.props.socket.on('treeChanges', files => {
-      this.setState({ files });
-    })
-  }
+    if (this.props.socket) {
+      this.props.socket.on('treeChanges', files => {
+        mkDirStructure(files);
+        this.setState({ files });
+      });
+    }
 
-  componentWillReceiveProps({ directory }) {
-
+    return this.props.directory && this.props.directory.length &&
+      initializationPromise(this.props.directory)
+        .then(() => {
+          return getAllFiles(this.props.directory)
+            .then(files => this.setState({ files }))
+            .catch(console.error);
+        })
+        .catch(error => console.error(error));
   }
 
   setVisibility(filePath) {
@@ -37,29 +45,35 @@ export default class FileTree extends Component {
   render() {
     const files = this.state.files;
 
-    // Lines 58-60 merge any style props passed down with default props.  This way no unexpected changes
-    // occur as a result of passing down style props.
-    const fileTreeStyle = this.props.fileTreeStyle ? mergeStyleObjects(defaultStyles.fileTreeStyle, this.props.fileTreeStyle) : defaultStyles.fileTreeStyle;
-    const directoryStyle = this.props.directoryStyle ? mergeStyleObjects(defaultStyles.directoryStyle, this.props.directoryStyle) : defaultStyles.directoryStyle;
-    const fileStyle = this.props.fileStyle ? mergeStyleObjects(defaultStyles.fileStyle, this.props.fileStyle) : defaultStyles.fileStyle;
+    // Next 6 lines merge any style props passed down with default props.
+    // This way no unexpected changes occur as a result of passing down style props.
+    const fileTreeStyle = this.props.fileTreeStyle ? mergeStyleObjects(
+      defaultStyles.fileTreeStyle, this.props.fileTreeStyle) : defaultStyles.fileTreeStyle;
+    const directoryStyle = this.props.directoryStyle ? mergeStyleObjects(
+      defaultStyles.directoryStyle, this.props.directoryStyle) : defaultStyles.directoryStyle;
+    const fileStyle = this.props.fileStyle ? mergeStyleObjects(
+      defaultStyles.fileStyle, this.props.fileStyle) : defaultStyles.fileStyle;
 
     return (
       files.length > 0 &&
       <ul className="_fileTree" style={fileTreeStyle} >
         {files.map(file => {
-
           const filePath = file.filePath;
           const fileName = filePath.split('/').slice(-1).join('');
-
           return file.isDirectory ?
-            <li className="_directory" key={filePath + ' Directory'} style={directoryStyle}>
-              <div onClick={() => this.setVisibility(file.filePath)}>
-                <Directory className="directory" visible={this.props.isVisible[file.filePath]} theme={this.props.directoryTheme} />{`               ${fileName}`}
+            <li className="_directory" key={`${filePath} Directory`} style={directoryStyle}>
+              <div onClick={() => this.setVisibility(file.filePath)} role="menuitem" tabIndex={0}>
+                <Directory
+                  className="directory"
+                  visible={this.props.isVisible[file.filePath]}
+                  theme={this.props.directoryTheme}
+                />
+                {`               ${fileName}`}
               </div>
               {this.props.isVisible[file.filePath] &&
               <FileTree
-                directory={file.filePath}
                 files={file.files}
+                directory={file.filePath}
                 onFileClick={this.props.onFileClick}
                 toggleVisibility={this.props.toggleVisibility}
                 directoryTheme={this.props.directoryTheme || 'light'}
@@ -70,10 +84,29 @@ export default class FileTree extends Component {
               />}
             </li>
             :
-            <li className="_file" key={filePath} onClick={() => this.onFileClick(file)} style={fileStyle}><File className="file" />{`               ${fileName}`}</li>;
-          })
+            <li
+              className="_file"
+              key={filePath}
+              role="menuitem"
+              onClick={() => this.onFileClick(file)}
+              style={fileStyle}
+            >
+              <File className="file" />{`               ${fileName}`}</li>;
+        })
         }
       </ul>
     );
   }
 }
+FileTree.propTypes = {
+  onFileClick: PropTypes.func,
+  toggleVisibility: PropTypes.func,
+  directoryTheme: PropTypes.string,
+  isVisible: PropTypes.object,
+  fileTreeStyle: PropTypes.object,
+  directoryStyle: PropTypes.object,
+  fileStyle: PropTypes.object,
+  socket: PropTypes.object,
+  directory: PropTypes.string,
+  files: PropTypes.array
+};

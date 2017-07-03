@@ -3,11 +3,12 @@ import brace from 'brace';
 import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
 import 'brace/theme/solarized_dark';
-import io from 'socket.io-client';
+import Flexbox from 'flexbox-react';
+
 import Sidebar from './Sidebar';
 import TicketSubmitContainer from '../containers/TicketSubmitContainer';
 import FileRequestContainer from '../containers/FileRequestContainer';
-import Flexbox from 'flexbox-react';
+import { writeFile } from '../utils/file-functions';
 
 export default class CodeView extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ export default class CodeView extends Component {
     this.state = {
       data: ''
     };
-    //Brian's IP from 11th floor 172.16.21.52:3030
+    // Brian's IP from 11th floor 172.16.21.52:3030
     //                25th floor 172.16.25.125:3030
   }
 
@@ -28,7 +29,12 @@ export default class CodeView extends Component {
     // Currently both receiving any requested files and receiving any editor changes
     // will change the contents of the text editor.
     // TODO: Need to setup something like multiple text editors (perhaps in tabs)
-    this.props.socket.on('fileContents', data => {this.setState({ data })});
+    this.props.socket.on('fileContents', data => {
+      console.log('contents: ', data);
+
+      writeFile(requestedFilePath, data);
+      return this.setState({ data });
+    });
   }
 
   componentWillUnmount() {
@@ -58,7 +64,8 @@ export default class CodeView extends Component {
             <FileRequestContainer socket={this.props.socket} />
           </Flexbox>
           <Flexbox>
-            <AceEditor value={this.state.data}
+            <AceEditor
+              value={this.state.data}
               mode="javascript"
               theme="solarized_dark"
               editorProps={{ $blockScrolling: Infinity }}

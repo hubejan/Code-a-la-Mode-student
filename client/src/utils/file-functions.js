@@ -1,5 +1,5 @@
 const Promiseb = require('bluebird');
-// const BrowserFS = require('browserfs');
+const BrowserFS = require('browserfs');
 
 // turns off forgotten return warning in Bluebird
 Promiseb.config({
@@ -9,9 +9,10 @@ Promiseb.config({
 });
 
 const fsp = Promiseb.promisifyAll(require('fs'));
-function initializationPromise (dir) {
+
+function initializationPromise(dir) {
   return new Promise((resolve, reject) => {
-    var html5fs = new BrowserFS.FileSystem.HTML5FS(10, window.TEMPORARY);
+    const html5fs = new BrowserFS.FileSystem.HTML5FS(10, window.TEMPORARY);
     html5fs.allocate(() => {
       resolve();
     });
@@ -24,16 +25,16 @@ const getAllFiles = (dir) => {
   return fsp.readdirAsync(dir)
     .then(fileNamesArr => {
       fileStatPromises = fileNamesArr.map(fileName => {
-        return fsp.statAsync(dir + '/' + fileName)
+        return fsp.statAsync(`${dir}/${fileName}`)
           .then(stats => {
             const file = {};
-            file.filePath = dir + '/' + fileName;
+            file.filePath = `${dir}/${fileName}`;
             file.isDirectory = !stats.isFile();
-            if (stats.isDirectory == true) {
+            if (stats.isDirectory() === true) {
               return getAllFiles(file.filePath)
               .then(fileNamesSubArr => {
                 file.files = fileNamesSubArr;
-                return file.files;
+                return file;
               })
               .catch(error => console.error(error));
             }
@@ -43,9 +44,27 @@ const getAllFiles = (dir) => {
       return Promiseb.all(fileStatPromises);
     });
 };
+let rootStartingIndex;
+const mkDirStructure = (tree) => {
+  console.log('tree: ', tree)
+  if (!rootStartingIndex && tree[0]) {
+    rootStartingIndex = tree[0].filePath.lastIndexOf('/');
+  }
+  const filePromises = tree.map(file => {
+    if (file.isDirectory) {
+      return fsp.mkdirAsync(file.filePath.slice(rootStartingIndex))
+        .then(() => mkDirStructure(file.filePath))
+        .catch(error => console.error(error));
+    }
+    return file;
+  });
+  return Promiseb.all(filePromises);
+};
 
-export const readFile = file => fsp.readFileAsync(file);
+const writeFile = (path, file) => fsp.writeFileAsync(path, file);
+const exists = (path) => fsp.existsAsync(path);
+
 
 module.exports = {
-  getAllFiles, initializationPromise
+  getAllFiles, writeFile, initializationPromise, exists, mkDirStructure
 };

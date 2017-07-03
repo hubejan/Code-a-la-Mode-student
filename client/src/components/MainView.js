@@ -1,19 +1,17 @@
 import React, { Link, Component } from 'react';
-import CodeView from './CodeView';
-import Sidebar from './Sidebar';
 import { connect } from 'react-redux';
-import Navbar from './Navbar';
-import store from '../store';
-import FileTree from '../containers/FileTreeContainer';
-import { getAllFiles } from '../utils/file-functions';
-import Promise from 'bluebird';
 import fs from 'fs';
 import Flexbox from 'flexbox-react';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import Drawer from 'material-ui/Drawer';
 import Paper from 'material-ui/Paper';
-
+import CodeView from './CodeView';
+import Sidebar from './Sidebar';
+import Navbar from './Navbar';
+import store from '../store';
+import FileTreeContainer from '../containers/FileTreeContainer';
+import { getAllFiles } from '../utils/file-functions';
 
 const writeNum = (num) => {
   const test = `/OMG${folder}/test${num}`;
@@ -69,47 +67,49 @@ class MainView extends Component {
     // editor listener is currently inside CodeView, but can optionally be moved here
   }
 
-  handleToggle = () => this.setState({open: !this.state.open});
+  handleToggle = () => this.setState({ open: !this.state.open });
 
   render() {
-    const { snapshots, selectSnapshot, socket } = this.props;
+    const { snapshots, selectSnapshot, socket, requestedFilePath } = this.props;
     return (
-    <Flexbox display="flex" flexDirection="column" flexGrow={1} minWidth="100vw">
-      <Flexbox flexDrirection="row">
-        <AppBar title="Code-a-la-Mode" iconClassNameRight="muidocs-icon-navigation-expand-more"> 
-        <RaisedButton label="write1" style={style} onClick={() => writeNum('1')} />
-        <RaisedButton label="write2" style={style} onClick={() => writeNum('2')} />
-        <RaisedButton label="read1" style={style} onClick={() => readNum('1')} />
-        <RaisedButton label="read2" style={style} onClick={() => readNum('2')} />
-        <RaisedButton label="dir" style={style} onClick={() => readDir('/')} />
-        <RaisedButton label="Questions" style={style} onClick={() => handleToggle()} />
-        </AppBar>
-      </Flexbox>
-      <Flexbox element="main" flexDirection="row">
-        <Flexbox element="aside" flexGrow={3}>
-        <Paper style={style} zDepth={2} >
-          <FileTree directory={'/'} socket={socket} />
-        </Paper>
+      <Flexbox display="flex" flexDirection="column" flexGrow={1} minWidth="100vw">
+        <Flexbox flexDirection="row">
+          <AppBar title="Code-a-la-Mode" iconClassNameRight="muidocs-icon-navigation-expand-more">
+            <RaisedButton label="write1" style={style} onClick={() => writeNum('1')} />
+            <RaisedButton label="write2" style={style} onClick={() => writeNum('2')} />
+            <RaisedButton label="read1" style={style} onClick={() => readNum('1')} />
+            <RaisedButton label="read2" style={style} onClick={() => readNum('2')} />
+            <RaisedButton label="dir" style={style} onClick={() => readDir('/')} />
+            <RaisedButton label="Questions" style={style} onClick={() => handleToggle()} />
+          </AppBar>
         </Flexbox>
-        <Flexbox flexGrow={3}>
-        <Paper style={style} zDepth={5} >
-          <CodeView socket={socket} />
-        </Paper>
+        <Flexbox element="main" flexDirection="row">
+          <Flexbox element="aside" flexGrow={3}>
+            <Paper style={style} zDepth={2} >
+              <FileTreeContainer directory={'/'} socket={socket} />
+            </Paper>
+          </Flexbox>
+          <Flexbox flexGrow={3}>
+            <Paper style={style} zDepth={5} >
+              <CodeView socket={socket} />
+            </Paper>
+          </Flexbox>
+          <Drawer width={200} openSecondary={Boolean(true)} open={Boolean(true)} >
+            <AppBar title="Tickets" />
+          </Drawer>
         </Flexbox>
-        <Drawer width={200} openSecondary={true} open={true} >
-          <AppBar title="Tickets" />
-        </Drawer>        
       </Flexbox>
-    </Flexbox>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ code, snapshots, selectSnapshot }) => ({
+const mapStateToProps = ({ code, snapshots, selectSnapshot, fileTree }) => ({
   code: 'class test{};',
-  snapshots: { list: [],
-               selected: {}},
-  // files: getAllFiles('/')
+  snapshots: {
+    list: [],
+    selected: {}
+  },
+  requestedFilePath: fileTree.requestedFilePath
 });
 
 const mapDispatch = dispatch => ({

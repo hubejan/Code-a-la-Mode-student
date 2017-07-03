@@ -6,7 +6,7 @@ import dummyReducer from './dummy';
 import userReducer from './user';
 import snapshotsReducer from './snapshots-reducer';
 import liveCodeReducer from './liveCode-reducer';
-import fileTree from './file-tree.js';
+import fileTree from './fileTree-reducer';
 import room from './room-reducer';
 
 
