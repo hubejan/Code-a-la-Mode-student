@@ -5,29 +5,37 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import AutoComplete from 'material-ui/AutoComplete';
 import TextField from 'material-ui/TextField';
+import Flexbox from 'flexbox-react';
 
+const flexboxStyles = {
+  minHeight: '100vh',
+  minWidth: '100vw'
+}
+const formStyles = {
+  marginBottom: '10%',
+  width: '60%'
+}
 
-// dev note: this looks almost identical to TicketSubmit, as do the containers
-// could probably refactor into a more generic component later
+const textStyles = {
+  fontSize: '22px',
+  width: '100%',
+  textAlign: 'center'
+}
+
 const JoinRoom = ({ handleChange, handleSubmit, inputValue }) => {
   return (
-    <Dialog title="Join"
-          modal={true}
-          open={true}>
-      <AppBar title="Code-a-la-Mode" iconClassNameRight="muidocs-icon-navigation-expand-more">
-        <form onSubmit={handleSubmit}>
-          <TextField
-            id="text-field-default"
-            onChange={handleChange}
-            value={inputValue}
-            placeholder="Ask your instructor for their IP Address"
-          />
-          <RaisedButton type="submit" disabled={inputValue.length === 0} >
-            JOIN
-          </RaisedButton>
-        </form>
-      </AppBar>
-    </Dialog>
+    <Flexbox style={flexboxStyles} justifyContent="center" alignItems="center">
+      <form style={formStyles} onSubmit={handleSubmit}>
+        <TextField
+          className="loginInput"
+          style={textStyles}
+          id="text-field-default"
+          onChange={handleChange}
+          value={inputValue}
+          placeholder="Join a Room!"
+        />
+      </form>
+    </Flexbox>
   );
 }
 
