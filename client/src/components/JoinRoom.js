@@ -5,37 +5,48 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import AutoComplete from 'material-ui/AutoComplete';
 import TextField from 'material-ui/TextField';
-import Flexbox from 'flexbox-react';
+import { red, cyan, yellow } from '../public/colors';
+import '../public/stylesheets/joinRoom.scss';
 
-const flexboxStyles = {
-  minHeight: '100vh',
-  minWidth: '100vw'
-}
 const formStyles = {
   marginBottom: '10%',
-  width: '60%'
+  width: '500px' // good size for as small as half-screen macbook air
 }
 
-const textStyles = {
-  fontSize: '22px',
+const textFieldStyles = {
+  fontSize: '30px',
+  fontFamily: 'Monaco',
   width: '100%',
-  textAlign: 'center'
+  padding: '0 0 5px 0',
+  textAlign: 'center',
+  errorStyle: { color: red },
+  underlineFocusStyle: { color: cyan }
 }
 
-const JoinRoom = ({ handleChange, handleSubmit, inputValue }) => {
+const inputStyles = {
+  textAlign: 'center',
+  color: yellow
+}
+
+// once we have a logo we can put a logo + header message on here?
+const JoinRoom = ({ handleChange, handleSubmit, inputValue, validating, attempted }) => {
+  const errorText = attempted ? 'Connection failed! Did you make a typo?' : '';
+
   return (
-    <Flexbox style={flexboxStyles} justifyContent="center" alignItems="center">
       <form style={formStyles} onSubmit={handleSubmit}>
         <TextField
-          className="loginInput"
-          style={textStyles}
+          className="loginInput"  
+          style={textFieldStyles}
           id="text-field-default"
           onChange={handleChange}
           value={inputValue}
-          placeholder="Join a Room!"
+          placeholder="Enter your teacher's IP"
+          errorText={errorText}
+          errorStyle={textFieldStyles.errorStyle}
+          underlineFocusStyle={textFieldStyles.underlineFocusStyle}
+          inputStyle={inputStyles}
         />
       </form>
-    </Flexbox>
   );
 }
 
