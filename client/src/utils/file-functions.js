@@ -49,7 +49,7 @@ const mkDirStructure = (tree) => {
   const filePromises = tree.map(file => {
     if (file.isDirectory) {
       fsp.statAsync(file.filePath, (err, fStat) => {
-        console.log('fStat is:', fStat);
+        console.log('fStat is:', fStat, 'err is:', err);
         if (err) {
           console.log('dir not in students FS');
           return fsp.mkdirAsync(file.filePath, (error) => {
