@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MainView from '../components/MainView';
 import JoinRoom from '../containers/JoinRoomContainer';
-import { setSocket, disconnect } from '../action-creators/room-actions';
+import { setSocket, disconnect, validating, failed } from '../action-creators/room-actions';
+import io from 'socket.io-client';
 
 const HomeContainer = ({ socket, joinRoom, leaveRoom }) => socket
   ? <MainView socket={socket} leaveRoom={leaveRoom} /> 
@@ -16,7 +17,16 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    joinRoom: (ip) => dispatch(setSocket(ip)),
+    joinRoom: (ip) => {
+      const socket = io(ip);
+      dispatch(validating());
+
+      setTimeout(() => {
+        if (socket.connected) return dispatch(setSocket(socket));
+        socket.close();
+        return dispatch(failed());
+      }, 1000);
+    },
     leaveRoom: () => dispatch(disconnect())
   }
 }
