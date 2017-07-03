@@ -12,7 +12,7 @@ const fsp = Promiseb.promisifyAll(require('fs'));
 
 function initializationPromise(dir) {
   return new Promise((resolve, reject) => {
-    const html5fs = new BrowserFS.FileSystem.HTML5FS(10, window.TEMPORARY);
+    const html5fs = new BrowserFS.FileSystem.HTML5FS(10, 1);
     html5fs.allocate(() => {
       resolve();
     });
@@ -44,27 +44,42 @@ const getAllFiles = (dir) => {
       return Promiseb.all(fileStatPromises);
     });
 };
-let rootStartingIndex;
+
 const mkDirStructure = (tree) => {
-  console.log('tree: ', tree)
-  if (!rootStartingIndex && tree[0]) {
-    rootStartingIndex = tree[0].filePath.lastIndexOf('/');
-  }
   const filePromises = tree.map(file => {
     if (file.isDirectory) {
-      return fsp.mkdirAsync(file.filePath.slice(rootStartingIndex))
-        .then(() => mkDirStructure(file.filePath))
-        .catch(error => console.error(error));
+      fsp.statAsync(file.filePath, (err, fStat) => {
+        console.log('fStat is:', fStat);
+        if (err) {
+          console.log('dir not in students FS');
+          return fsp.mkdirAsync(file.filePath, (error) => {
+            if (error) {
+              console.log('mkdir error. fstat: ', fStat)
+              return console.error(error);
+            }
+          });
+        }
+        return mkDirStructure(file.files);
+      });
     }
-    return file;
+    // console.log('writing to:', file.filePath);
+    return writeFile(file.filePath, '');
   });
-  return Promiseb.all(filePromises);
+  // console.log('filePromises:', filePromises);
+  Promiseb.all(filePromises)
+    .then(() => {
+      return tree;
+    })
+    .catch(error => {
+      // console.log('promise.all error.');
+      console.error(error)
+    });
 };
 
 const writeFile = (path, file) => fsp.writeFileAsync(path, file);
-const exists = (path) => fsp.existsAsync(path);
+const fstat = (path) => fsp.fstatAsync(path);
 
 
 module.exports = {
-  getAllFiles, writeFile, initializationPromise, exists, mkDirStructure
+  getAllFiles, writeFile, initializationPromise, fstat, mkDirStructure
 };

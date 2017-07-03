@@ -1,6 +1,7 @@
-import { RECEIVE_LIVECODE, SET_PATH } from '../constants';
 import io from 'socket.io-client';
-import { exists } from '../utils/file-functions';
+
+import { RECEIVE_LIVECODE, SET_PATH } from '../constants';
+import { fstat } from '../utils/file-functions';
 
 export const getLiveCode = code => ({
   type: RECEIVE_LIVECODE, code
@@ -15,7 +16,15 @@ export const setRequestedPath = path => ({ type: SET_PATH, path });
 export const storeFilePath = (socket, selectedFile) =>
 dispatch => {
   console.log('selected file: ', selectedFile);
-  // const relativePath = selectedFile.filePath.split('/').slice(-depth).join('');
-  socket.emit('fileReq', selectedFile.filePath);
-  return dispatch(setRequestedPath(selectedFile.filePath));
+
+  // fstat(selectedFile)
+  //   .then((err, fStat) => {
+  //     console.log('fstat: ', fStat);
+  //     if (err) console.error(err);
+  //     else if (!fStat) {
+        socket.emit('fileReq', selectedFile.filePath);
+        return dispatch(setRequestedPath(selectedFile.filePath));
+    //   }
+    // })
+    // .catch(console.error);
 };
