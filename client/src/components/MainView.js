@@ -73,7 +73,7 @@ class MainView extends Component {
     const { snapshots, selectSnapshot, socket, requestedFilePath } = this.props;
     return (
       <Flexbox display="flex" flexDirection="column" flexGrow={1} minWidth="100vw">
-        <Flexbox flexDrirection="row">
+        <Flexbox flexDirection="row">
           <AppBar title="Code-a-la-Mode" iconClassNameRight="muidocs-icon-navigation-expand-more">
             <RaisedButton label="write1" style={style} onClick={() => writeNum('1')} />
             <RaisedButton label="write2" style={style} onClick={() => writeNum('2')} />

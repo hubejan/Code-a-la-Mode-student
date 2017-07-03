@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Directory from './Directory';
 import File from './File';
-import { initializationPromise } from '../utils/file-functions';
+import { initializationPromise, getAllFiles, mkDirStructure } from '../utils/file-functions';
 import { mergeStyleObjects } from '../utils/helpers';
 import defaultStyles from '../utils/defaultStyles';
-
 
 export default class FileTree extends Component {
   constructor() {
@@ -20,7 +19,7 @@ export default class FileTree extends Component {
   componentDidMount() {
     if (this.props.socket) {
       this.props.socket.on('treeChanges', files => {
-        console.log('these are received:', files);
+        mkDirStructure(files);
         this.setState({ files });
       });
     }
@@ -33,10 +32,6 @@ export default class FileTree extends Component {
             .catch(console.error);
         })
         .catch(error => console.error(error));
-  }
-
-  componentWillReceiveProps({ directory }) {
-
   }
 
   setVisibility(filePath) {
@@ -77,6 +72,7 @@ export default class FileTree extends Component {
               </div>
               {this.props.isVisible[file.filePath] &&
               <FileTree
+                files={file.files}
                 directory={file.filePath}
                 onFileClick={this.props.onFileClick}
                 toggleVisibility={this.props.toggleVisibility}

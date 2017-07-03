@@ -7,10 +7,10 @@ export const getLiveCode = code => ({
 });
 export const setRequestedPath = path => ({ type: SET_PATH, path });
 
-export const loadFile = (dispatch, socket) => {
-  socket.on('fileContents', data => dispatch(getLiveCode(data)));
-  console.log('should have just dispatched livecode data');
-};
+// export const loadFile = (dispatch, socket) => {
+//   socket.on('fileContents', data => dispatch(getLiveCode(data)));
+//   console.log('should have just dispatched livecode data');
+// };
 
 export const storeFilePath = (socket, selectedFile) =>
 dispatch => {

@@ -35,6 +35,7 @@
     "indent": "warn",
     "react/forbid-prop-types": "warn",
     "object-curly-spacing": "warn",
+    "space-before-blocks": "warn",
     "promise/param-names": "warn",
     "promise/always-return": "warn",
     "promise/catch-or-return": "warn",
