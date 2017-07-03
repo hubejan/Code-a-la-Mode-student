@@ -22,15 +22,14 @@ export default class FileTree extends Component {
         if (files[0]) {
           this.truncTreePath(files, files[0].filePath.lastIndexOf('/'));
         }
-        console.log('trunc: ', files);
-        let m = mkDirStructure(files)
-          // .then(() => {
-          //   console.log('f');
-            this.setState({ m });
-
-          // })
-          // .catch(console.error);
-        console.log('done')
+        mkDirStructure(files)
+          .then(() => {
+            mkDirStructure(files)
+            .then(() => {
+              this.setState({ files });
+            });
+          })
+          .catch(console.error);
       });
     }
 
@@ -38,10 +37,7 @@ export default class FileTree extends Component {
       initializationPromise(this.props.directory)
         .then(() => {
           return getAllFiles(this.props.directory)
-            .then(files => {
-              console.log('init and files are: ', files)
-              return this.setState({ files });
-            })
+            .then(files => this.setState({ files }))
             .catch(console.error);
         })
         .catch(error => console.error(error));
