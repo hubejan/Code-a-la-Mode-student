@@ -3,10 +3,16 @@ import brace from 'brace';
 import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
 import 'brace/theme/solarized_dark';
+
 import Flexbox from 'flexbox-react';
+import Paper from 'material-ui/Paper';
 
 import TicketSubmitContainer from '../containers/TicketSubmitContainer';
 import { writeFile } from '../utils/file-functions';
+
+const style = {
+  margin: 12,
+};
 
 export default class CodeView extends Component {
   constructor(props) {
@@ -61,12 +67,14 @@ export default class CodeView extends Component {
             <TicketSubmitContainer socket={this.props.socket} />
           </Flexbox>
           <Flexbox>
-            <AceEditor
-              value={this.state.data}
-              mode="javascript"
-              theme="solarized_dark"
-              editorProps={{ $blockScrolling: Infinity }}
-            />
+            <Paper style={style} zDepth={5} >
+              <AceEditor
+                value={this.state.data}
+                mode="javascript"
+                theme="solarized_dark"
+                editorProps={{ $blockScrolling: Infinity }}
+              />
+            </Paper>
           </Flexbox>
         </Flexbox>
       </Flexbox>

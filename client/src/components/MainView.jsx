@@ -30,9 +30,9 @@ class MainView extends Component {
   render() {
     const { snapshots, selectSnapshot, socket, requestedFilePath } = this.props;
     return (
-      <Flexbox display="flex" flexDirection="row" flexGrow={1} flexWrap="wrap" marginTop="auto" marginBottom="auto" width="100vw">
+      <Flexbox display="flex" flexDirection="row" flexGrow={1} flexWrap="wrap" marginTop="auto" marginBottom="auto" width="100vw" maxHeight="100vh">
 
-          <AppBar title="Code-a-la-Mode" style={{ width: '100%' }} />
+          <AppBar title="Code-a-la-Mode" style={{ width: '100%'}} />
 
           {/*<div> ONE </div>*/}
 
@@ -41,7 +41,7 @@ class MainView extends Component {
               <FileTreeContainer directory={'/'} socket={socket} />
             </Paper>
 
-          <Flexbox height="70%">
+          <Flexbox height="50%">
             <Paper style={style} zDepth={5} >
               <CodeView socket={socket} />
             </Paper>
