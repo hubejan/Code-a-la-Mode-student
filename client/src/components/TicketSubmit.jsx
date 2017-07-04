@@ -9,11 +9,15 @@ const TicketSubmit = ({ handleChange, handleSubmit, inputValue }) => {
     <Flexbox>
       <form onSubmit={handleSubmit}>
         <TextField
-          type="text"
+          type="pre"
+          multiLine={true}
+          rows={1}
+          rowsMax={4}
           name="Ticket"
           onChange={handleChange}
           value={inputValue}
           placeholder="Submit a help ticket!"
+          style={{fontSize: '10'}}
         />
         <RaisedButton type="submit" disabled={inputValue.length === 0} >
           SEND

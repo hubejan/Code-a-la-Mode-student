@@ -5,9 +5,7 @@ import 'brace/mode/javascript';
 import 'brace/theme/solarized_dark';
 import Flexbox from 'flexbox-react';
 
-import Sidebar from './Sidebar';
 import TicketSubmitContainer from '../containers/TicketSubmitContainer';
-import FileRequestContainer from '../containers/FileRequestContainer';
 import { writeFile } from '../utils/file-functions';
 
 export default class CodeView extends Component {
@@ -32,7 +30,7 @@ export default class CodeView extends Component {
     this.props.socket.on('fileContents', data => {
       console.log('contents: ', data);
 
-      writeFile(requestedFilePath, data);
+      writeFile(this.props.requestedFilePath, data);
       return this.setState({ data });
     });
   }
@@ -50,8 +48,8 @@ export default class CodeView extends Component {
     const selectSnapshot = (snapshot) => console.log(`Select snapshot: ${snapshot}`);
 
     return (
-      <Flexbox flexDirection="column" minHeight="100vh" >
-        <Flexbox flexDirection="column" minHeight="100vh" >
+      <Flexbox flexDirection="column" height="100%" width="60vw" >
+        <Flexbox flexDirection="column" height="100%" >
           <Flexbox flexDirection="row">
             <button id="first" type="button" >First</button>
             <button id="prev" type="button" >Prev</button>
@@ -61,7 +59,6 @@ export default class CodeView extends Component {
           </Flexbox>
           <Flexbox flexDirection="column">
             <TicketSubmitContainer socket={this.props.socket} />
-            <FileRequestContainer socket={this.props.socket} />
           </Flexbox>
           <Flexbox>
             <AceEditor
