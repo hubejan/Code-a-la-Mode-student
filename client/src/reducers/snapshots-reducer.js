@@ -14,7 +14,7 @@ export default function (state = initialSnapshotsState, action) {
       break;
 
     case RECEIVE_SNAPSHOT:
-      newState.list =  [...state, action.snapshot];
+      newState.list = [...state, action.snapshot];
       break;
 
     case SET_SELECTED_SNAPSHOT:

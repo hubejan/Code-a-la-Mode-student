@@ -34,8 +34,8 @@ const readNum = (num) => {
 };
 
 const writeAndRead = () => {
-  fs.writeFile('/test3.txt', 'text3', function(writeerr) {
-    fs.readFile('/test2.txt', function(readerr, contents) {
+  fs.writeFile('/test3.txt', 'text3', function (writeerr) {
+    fs.readFile('/test2.txt', function (readerr, contents) {
       console.log(contents.toString());
     });
   });
@@ -73,18 +73,12 @@ class MainView extends Component {
     const { snapshots, selectSnapshot, socket, requestedFilePath } = this.props;
     return (
       <Flexbox display="flex" flexDirection="column" flexGrow={1} minWidth="100vw">
-        <Flexbox flexDirection="row">
+        <Flexbox flexDirection="row" flexWrap="wrap" width="100vw">
           <AppBar title="Code-a-la-Mode" iconClassNameRight="muidocs-icon-navigation-expand-more">
-            <RaisedButton label="write1" style={style} onClick={() => writeNum('1')} />
-            <RaisedButton label="write2" style={style} onClick={() => writeNum('2')} />
-            <RaisedButton label="read1" style={style} onClick={() => readNum('1')} />
-            <RaisedButton label="read2" style={style} onClick={() => readNum('2')} />
-            <RaisedButton label="dir" style={style} onClick={() => readDir('/')} />
-            <RaisedButton label="Questions" style={style} onClick={() => handleToggle()} />
           </AppBar>
         </Flexbox>
-        <Flexbox element="main" flexDirection="row">
-          <Flexbox element="aside" flexGrow={3}>
+        <Flexbox element="main" flexDirection="row" flexWrap="wrap">
+          <Flexbox element="aside" flexGrow={3} >
             <Paper style={style} zDepth={2} >
               <FileTreeContainer directory={'/'} socket={socket} />
             </Paper>
@@ -94,9 +88,11 @@ class MainView extends Component {
               <CodeView socket={socket} />
             </Paper>
           </Flexbox>
-          <Drawer width={200} openSecondary={Boolean(true)} open={Boolean(true)} >
-            <AppBar title="Tickets" />
-          </Drawer>
+          <Flexbox>
+            <Drawer width={200} openSecondary={Boolean(true)} open={Boolean(true)} >
+              <AppBar title="Tickets" />
+            </Drawer>
+          </Flexbox>
         </Flexbox>
       </Flexbox>
     );

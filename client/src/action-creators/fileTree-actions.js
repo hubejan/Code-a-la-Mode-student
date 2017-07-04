@@ -1,6 +1,4 @@
 import { RECEIVE_LIVECODE, SET_PATH } from '../constants';
-import io from 'socket.io-client';
-import { exists } from '../utils/file-functions';
 
 export const getLiveCode = code => ({
   type: RECEIVE_LIVECODE, code
