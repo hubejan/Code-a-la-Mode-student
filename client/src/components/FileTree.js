@@ -19,8 +19,17 @@ export default class FileTree extends Component {
   componentDidMount() {
     if (this.props.socket) {
       this.props.socket.on('treeChanges', files => {
-        mkDirStructure(files);
-        this.setState({ files });
+        if (files[0]) {
+          this.truncTreePath(files, files[0].filePath.lastIndexOf('/'));
+        }
+        mkDirStructure(files)
+          .then(() => {
+            mkDirStructure(files)
+            .then(() => {
+              this.setState({ files });
+            });
+          })
+          .catch(console.error);
       });
     }
 
@@ -32,6 +41,18 @@ export default class FileTree extends Component {
             .catch(console.error);
         })
         .catch(error => console.error(error));
+  }
+
+  // this function truncates the file paths from
+  // '/Users/myUsername/myProject/package.json' to '//package.json'
+  truncTreePath(tree, rootIdx) {
+    tree.map(file => {
+      file.filePath = `/${file.filePath.slice(rootIdx)}`;
+      if (file.isDirectory) {
+        this.truncTreePath(file.files, rootIdx);
+      }
+      return file;
+    });
   }
 
   setVisibility(filePath) {
@@ -68,7 +89,7 @@ export default class FileTree extends Component {
                   visible={this.props.isVisible[file.filePath]}
                   theme={this.props.directoryTheme}
                 />
-                {`               ${fileName}`}
+                {` ${fileName}`}
               </div>
               {this.props.isVisible[file.filePath] &&
               <FileTree
@@ -91,7 +112,7 @@ export default class FileTree extends Component {
               onClick={() => this.onFileClick(file)}
               style={fileStyle}
             >
-              <File className="file" />{`               ${fileName}`}</li>;
+              <File className="file" />{` ${fileName}`}</li>;
         })
         }
       </ul>

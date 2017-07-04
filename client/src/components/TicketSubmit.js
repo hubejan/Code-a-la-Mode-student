@@ -10,6 +10,7 @@ const TicketSubmit = ({ handleChange, handleSubmit, inputValue }) => {
       <form onSubmit={handleSubmit}>
         <TextField
           type="text"
+          id="1"
           onChange={handleChange}
           value={inputValue}
           placeholder="Submit a help ticket!"

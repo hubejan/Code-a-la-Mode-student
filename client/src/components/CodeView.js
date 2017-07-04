@@ -7,7 +7,7 @@ import Flexbox from 'flexbox-react';
 
 import Sidebar from './Sidebar';
 import TicketSubmitContainer from '../containers/TicketSubmitContainer';
-import FileRequestContainer from '../containers/FileRequestContainer';
+// import FileRequestContainer from '../containers/FileRequestContainer';
 import { writeFile } from '../utils/file-functions';
 
 export default class CodeView extends Component {
@@ -30,10 +30,12 @@ export default class CodeView extends Component {
     // will change the contents of the text editor.
     // TODO: Need to setup something like multiple text editors (perhaps in tabs)
     this.props.socket.on('fileContents', data => {
-      console.log('contents: ', data);
-
-      writeFile(requestedFilePath, data);
-      return this.setState({ data });
+      writeFile(this.props.requestedFilePath, data)
+        .then(err => {
+          this.setState({ data });
+          return err;
+        })
+        .catch(console.error);
     });
   }
 
@@ -61,7 +63,6 @@ export default class CodeView extends Component {
           </Flexbox>
           <Flexbox flexDirection="column">
             <TicketSubmitContainer socket={this.props.socket} />
-            <FileRequestContainer socket={this.props.socket} />
           </Flexbox>
           <Flexbox>
             <AceEditor
