@@ -86,12 +86,12 @@ class MainView extends Component {
         <Flexbox element="main" flexDirection="row">
           <Flexbox element="aside" flexGrow={3}>
             <Paper style={style} zDepth={2} >
-              <FileTreeContainer directory={'/'} socket={socket} />
+              <FileTreeContainer directory={'/'} socket={socket} directoryTheme="light" />
             </Paper>
           </Flexbox>
           <Flexbox flexGrow={3}>
             <Paper style={style} zDepth={5} >
-              <CodeView socket={socket} />
+              <CodeView socket={socket} requestedFilePath={requestedFilePath} />
             </Paper>
           </Flexbox>
           <Drawer width={200} openSecondary={Boolean(true)} open={Boolean(true)} >
