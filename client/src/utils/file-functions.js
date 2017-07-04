@@ -12,7 +12,7 @@ const fsp = Promiseb.promisifyAll(require('fs'));
 
 function initializationPromise(dir) {
   return new Promise((resolve, reject) => {
-    const html5fs = new BrowserFS.FileSystem.HTML5FS(10, window.TEMPORARY);
+    const html5fs = new BrowserFS.FileSystem.HTML5FS(10, 'window.TEMPORARY');
     html5fs.allocate(() => {
       resolve();
     });
@@ -44,27 +44,29 @@ const getAllFiles = (dir) => {
       return Promiseb.all(fileStatPromises);
     });
 };
-let rootStartingIndex;
 const mkDirStructure = (tree) => {
-  console.log('tree: ', tree)
-  if (!rootStartingIndex && tree[0]) {
-    rootStartingIndex = tree[0].filePath.lastIndexOf('/');
-  }
-  const filePromises = tree.map(file => {
-    if (file.isDirectory) {
-      return fsp.mkdirAsync(file.filePath.slice(rootStartingIndex))
-        .then(() => mkDirStructure(file.filePath))
-        .catch(error => console.error(error));
-    }
-    return file;
+  let filePromises;
+  filePromises = tree.map(file => {
+    return fsp.statAsync(file.filePath)
+      .then(stats => {
+        if (file.isDirectory) return mkDirStructure(file.files);
+        return file;
+      })
+      .catch(() => {
+        if (file.isDirectory) {
+          return fsp.mkdirAsync(file.filePath)
+            .then(() => mkDirStructure(file.files));
+        }
+        return fsp.writeFileAsync(file.filePath, '');
+      });
   });
   return Promiseb.all(filePromises);
 };
 
 const writeFile = (path, file) => fsp.writeFileAsync(path, file);
-const exists = (path) => fsp.existsAsync(path);
+const fstat = (path) => fsp.fstatAsync(path);
 
 
 module.exports = {
-  getAllFiles, writeFile, initializationPromise, exists, mkDirStructure
+  getAllFiles, writeFile, initializationPromise, fstat, mkDirStructure
 };

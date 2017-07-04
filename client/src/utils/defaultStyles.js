@@ -1,12 +1,16 @@
 export default {
   fileTreeStyle: {
     fontFamily: 'sans-serif',
-    listStyle: 'none'
+    listStyle: 'none',
+    marginLeft: 1,
+    paddingLeft: 8
   },
   directoryStyle: {
-    marginBottom: 3
+    marginBottom: 3,
+    marginLeft: 1
   },
   fileStyle: {
-    marginBottom: 3
+    marginBottom: 3,
+    marginLeft: 1
   }
 };
