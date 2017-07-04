@@ -15,7 +15,7 @@ export const setRequestedPath = path => ({ type: SET_PATH, path });
 
 export const storeFilePath = (socket, selectedFile) =>
 dispatch => {
-  // console.log('selected file: ', selectedFile);
+  console.log('selected file: ', selectedFile);
 
   // ___ This commented code was work towards checking the FS to see if file exists
   // before unnecessarily sending a request for file contents.

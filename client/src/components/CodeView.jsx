@@ -34,6 +34,7 @@ export default class CodeView extends Component {
     // will change the contents of the text editor.
     // TODO: Need to setup something like multiple text editors (perhaps in tabs)
     this.props.socket.on('fileContents', data => {
+      console.log(this.props.requestedFilePath, 'reqfilepath when receiving: ', data)
       writeFile(this.props.requestedFilePath, data)
         .then(err => {
           this.setState({ data });

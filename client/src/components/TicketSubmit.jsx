@@ -9,14 +9,14 @@ const TicketSubmit = ({ handleChange, handleSubmit, inputValue }) => {
     <form onSubmit={handleSubmit}>
       <TextField
         type="text"
-        multiLine={true}
+        multiLine={Boolean(true)}
         rows={1}
         rowsMax={4}
         name="Ticket"
         onChange={handleChange}
         value={inputValue}
         placeholder="Submit a help ticket!"
-        style={{fontSize: '10'}}
+        style={{ fontSize: '10', borderTop: '1px solid grey', fontFamily: 'Monaco', lineHeight: 'normal' }}
       />
       <RaisedButton type="submit" disabled={inputValue.length === 0} >
         SEND
@@ -24,5 +24,4 @@ const TicketSubmit = ({ handleChange, handleSubmit, inputValue }) => {
     </form>
   );
 };
-
 export default TicketSubmit;
