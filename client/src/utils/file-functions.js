@@ -49,15 +49,15 @@ const mkDirStructure = (tree) => {
   filePromises = tree.map(file => {
     return fsp.statAsync(file.filePath)
       .then(stats => {
-        if (file.isDirectory)
-          return mkDirStructure(file.files);
+        if (file.isDirectory) return mkDirStructure(file.files);
+        return file;
       })
-      .catch(err => {
-        if (file.isDirectory)
+      .catch(() => {
+        if (file.isDirectory) {
           return fsp.mkdirAsync(file.filePath)
-            .then( () => mkDirStructure(file.files));
-        else
-          return fsp.writeFileAsync(file.filePath, '');
+            .then(() => mkDirStructure(file.files));
+        }
+        return fsp.writeFileAsync(file.filePath, '');
       });
   });
   return Promiseb.all(filePromises);
