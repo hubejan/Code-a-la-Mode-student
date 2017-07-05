@@ -3,12 +3,16 @@ import brace from 'brace';
 import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
 import 'brace/theme/solarized_dark';
-import Flexbox from 'flexbox-react';
 
-import Sidebar from './Sidebar';
+import Flexbox from 'flexbox-react';
+import Paper from 'material-ui/Paper';
+
 import TicketSubmitContainer from '../containers/TicketSubmitContainer';
-// import FileRequestContainer from '../containers/FileRequestContainer';
 import { writeFile } from '../utils/file-functions';
+
+const style = {
+  margin: 12,
+};
 
 export default class CodeView extends Component {
   constructor(props) {
@@ -30,6 +34,7 @@ export default class CodeView extends Component {
     // will change the contents of the text editor.
     // TODO: Need to setup something like multiple text editors (perhaps in tabs)
     this.props.socket.on('fileContents', data => {
+      console.log(this.props.requestedFilePath, 'reqfilepath when receiving: ', data)
       writeFile(this.props.requestedFilePath, data)
         .then(err => {
           this.setState({ data });
@@ -52,8 +57,8 @@ export default class CodeView extends Component {
     const selectSnapshot = (snapshot) => console.log(`Select snapshot: ${snapshot}`);
 
     return (
-      <Flexbox flexDirection="column" minHeight="100vh" >
-        <Flexbox flexDirection="column" minHeight="100vh" >
+      <Flexbox flexDirection="column" height="100%" width="60vw" >
+        <Flexbox flexDirection="column" height="100%" >
           <Flexbox flexDirection="row">
             <button id="first" type="button" >First</button>
             <button id="prev" type="button" >Prev</button>
@@ -65,12 +70,14 @@ export default class CodeView extends Component {
             <TicketSubmitContainer socket={this.props.socket} />
           </Flexbox>
           <Flexbox>
-            <AceEditor
-              value={this.state.data}
-              mode="javascript"
-              theme="solarized_dark"
-              editorProps={{ $blockScrolling: Infinity }}
-            />
+            <Paper style={style} zDepth={5} >
+              <AceEditor
+                value={this.state.data}
+                mode="javascript"
+                theme="solarized_dark"
+                editorProps={{ $blockScrolling: Infinity }}
+              />
+            </Paper>
           </Flexbox>
         </Flexbox>
       </Flexbox>

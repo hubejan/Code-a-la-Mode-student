@@ -7,8 +7,11 @@ import io from 'socket.io-client';
 
 const HomeContainer = ({ socket, joinRoom, leaveRoom }) => socket
   ? <MainView socket={socket} leaveRoom={leaveRoom} />
-  : <JoinRoom joinRoom={joinRoom} />
+  : <JoinRoom joinRoom={joinRoom} />;
 
+// const HomeContainer = ({ socket, joinRoom, leaveRoom }) => {
+//   return (<MainView socket={socket} leaveRoom={leaveRoom} />);
+// };
 const mapStateToProps = (state) => ({ socket: state.room.socket });
 
 const mapDispatchToProps = (dispatch) => {

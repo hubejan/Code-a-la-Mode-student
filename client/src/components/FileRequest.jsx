@@ -10,6 +10,7 @@ const FileRequest = ({ handleChange, handleSubmit, inputValue }) => {
       <form onSubmit={handleSubmit}>
         <TextField
           type="text"
+          name="fileReq"
           onChange={handleChange}
           value={inputValue}
           placeholder="enter something like /folder/...filename.js"
