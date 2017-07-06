@@ -7,6 +7,7 @@ import IconButton from 'material-ui/IconButton';
 
 import JoinRoom from '../components/JoinRoom';
 import Loading from '../components/Loading';
+import Logo from '../components/Logo';
 import { cyan, green, orange, magenta } from '../public/colors';
 
 const titleStyles = {
@@ -17,7 +18,7 @@ const titleStyles = {
 
 const outerStyles = {
   display: 'flex',
-  minHeight: '100vh',
+  maxHeight: '100vh',
   minWidth: '100vw'
 };
 
@@ -68,6 +69,7 @@ class JoinRoomContainer extends Component {
         justifyContent="center"
         alignItems="center"
       >
+        <Logo />
         <div style={titleStyles}>
           {/* just rando colors for now s T y L e Z */}
           <span style={{ color: cyan }}>Code </span>
