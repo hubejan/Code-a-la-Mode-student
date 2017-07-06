@@ -1,23 +1,48 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Flexbox from 'flexbox-react';
+
+import DownloadFile from 'material-ui/svg-icons/file/file-download';
+import IconButton from 'material-ui/IconButton';
+
 import JoinRoom from '../components/JoinRoom';
 import Loading from '../components/Loading';
-import Flexbox from 'flexbox-react';
 import { cyan, green, orange, magenta } from '../public/colors';
 
 const titleStyles = {
-  // a cool font could be nice- using Bones default to match student for now
-  position: 'absolute',
-  top: '10%',
   fontFamily: 'Monaco',
-  fontSize: '50px'
-}
+  fontSize: '50px',
+  fontWeight: '600'
+};
+
+const outerStyles = {
+  display: 'flex',
+  minHeight: '100vh',
+  minWidth: '100vw'
+};
+
+const instructorStyles = {
+  color: 'whitesmoke',
+  fontFamily: 'Monaco',
+  fontSize: '22px'
+};
+
+const buttonStyles = {
+  width: 120,
+  height: 120,
+  padding: 30,
+};
+
+const iconStyle = {
+  width: 60,
+  height: 60
+};
 
 class JoinRoomContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputValue: 'localhost:3030'
+      inputValue: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -36,14 +61,17 @@ class JoinRoomContainer extends Component {
 
   render() {
     const { validating, attempted } = this.props;
-    const flexboxStyles = { display: 'flex', minHeight: '100vh', minWidth: '100vw' };
-
     return (
-      <Flexbox style={flexboxStyles} justifyContent="center" alignItems="center">
+      <Flexbox
+        style={outerStyles}
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
         <div style={titleStyles}>
           {/* just rando colors for now s T y L e Z */}
           <span style={{ color: cyan }}>Code </span>
-          <span style={{ color: green }}>a </span>
+          <span style={{ color: green }}>à </span>
           <span style={{ color: orange }}>la </span>
           <span style={{ color: magenta }}>Mode</span>
         </div>
@@ -57,16 +85,31 @@ class JoinRoomContainer extends Component {
             attempted={attempted}
           />
         }
+        <Flexbox
+          style={instructorStyles}
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <h4>Are you an instructor?</h4>
+          <h4>Download the app!</h4>
+          <IconButton
+            style={buttonStyles}
+            iconStyle={iconStyle}
+            onTouchTap={() => console.log('download app')}
+          >
+            <DownloadFile color={green} />
+          </IconButton>
+        </Flexbox>
       </Flexbox>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    validating: state.room.attempting,
-    attempted: state.room.attempted
-  }
-}
+const mapStateToProps = (state) => ({
+  validating: state.room.attempting,
+  attempted: state.room.attempted
+});
+
 
 export default connect(mapStateToProps)(JoinRoomContainer);
