@@ -9,7 +9,7 @@ const formStyles = {
 };
 
 const textFieldStyles = {
-  fontSize: '30px',
+  fontSize: '20px',
   fontFamily: 'Monaco',
   width: '100%',
   padding: '0 0 5px 0',

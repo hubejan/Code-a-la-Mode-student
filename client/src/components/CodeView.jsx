@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import brace from 'brace';
 import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
-import 'brace/theme/solarized_dark';
+import 'brace/theme/monokai';
 
 import Flexbox from 'flexbox-react';
 import Paper from 'material-ui/Paper';
@@ -74,7 +74,7 @@ export default class CodeView extends Component {
               <AceEditor
                 value={this.state.data}
                 mode="javascript"
-                theme="solarized_dark"
+                theme="monokai"
                 editorProps={{ $blockScrolling: Infinity }}
               />
             </Paper>
