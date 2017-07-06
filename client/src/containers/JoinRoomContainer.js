@@ -10,14 +10,15 @@ const titleStyles = {
   position: 'absolute',
   top: '10%',
   fontFamily: 'Monaco',
-  fontSize: '50px'
-}
+  fontSize: '50px',
+  fontWeight: '600'
+};
 
 class JoinRoomContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputValue: 'localhost:3030'
+      inputValue: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -43,7 +44,7 @@ class JoinRoomContainer extends Component {
         <div style={titleStyles}>
           {/* just rando colors for now s T y L e Z */}
           <span style={{ color: cyan }}>Code </span>
-          <span style={{ color: green }}>a </span>
+          <span style={{ color: green }}>à </span>
           <span style={{ color: orange }}>la </span>
           <span style={{ color: magenta }}>Mode</span>
         </div>
@@ -62,11 +63,10 @@ class JoinRoomContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    validating: state.room.attempting,
-    attempted: state.room.attempted
-  }
-}
+const mapStateToProps = (state) => ({
+  validating: state.room.attempting,
+  attempted: state.room.attempted
+});
+
 
 export default connect(mapStateToProps)(JoinRoomContainer);
