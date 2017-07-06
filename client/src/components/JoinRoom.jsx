@@ -36,7 +36,7 @@ const JoinRoom = ({ handleChange, handleSubmit, inputValue, attempted }) => {
         id="text-field-default"
         onChange={handleChange}
         value={inputValue}
-        placeholder="Enter your teacher's IP"
+        placeholder="Enter your instructor's IP"
         errorText={errorText}
         errorStyle={textFieldStyles.errorStyle}
         underlineFocusStyle={textFieldStyles.underlineFocusStyle}
