@@ -2,10 +2,22 @@
 // and getting this global color file started
 // we should decide on a color palette as a group
 
-export const red = '#d02000';
-export const magenta = '#F7208B';
-export const cyan = '#5bd9ef';
-export const yellow = '#dadb74';
-export const warmBlack = '#262822';
-export const green = '#92e600';
-export const orange = '#f98b20';
+const red = '#d02000';
+const magenta = '#F7208B';
+const cyan = '#5bd9ef';
+const yellow = '#dadb74';
+const warmBlack = '#262822';
+const green = '#92e600';
+const orange = '#f98b20';
+const codeTheme = '#1e1f1a';
+
+module.exports = {
+  red,
+  magenta,
+  cyan,
+  yellow,
+  warmBlack,
+  green,
+  orange,
+  codeTheme
+};

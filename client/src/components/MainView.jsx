@@ -12,7 +12,16 @@ import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import store from '../store';
 import FileTreeContainer from '../containers/FileTreeContainer';
+import colors from '../public/colors';
 
+const titleStyles = {
+  // a cool font could be nice- using Bones default to match student for now
+  position: 'absolute',
+  top: '10%',
+  fontFamily: 'Monaco',
+  fontSize: '35px',
+  alignItems: 'center'
+};
 
 const style = {
   margin: 12,
@@ -30,33 +39,25 @@ class MainView extends Component {
     // editor listener is currently inside CodeView, but can optionally be moved here
   }
 
-  handleToggle = () => this.setState({ open: !this.state.open });
-
   render() {
     const { snapshots, selectSnapshot, socket, requestedFilePath } = this.props;
     return (
 
       <Flexbox display="flex" flexDirection="row" flexGrow={1} flexWrap="wrap" marginTop="auto" marginBottom="auto" width="100vw" maxHeight="100vh">
-          <AppBar title="Code-a-la-Mode" style={{ width: '100%'}} />
-          {/*<div> ONE </div>*/}
+        <AppBar style={{ width: '100%' }} showMenuIconButton={false}>
+            <div style={titleStyles}>
+              <span style={{ color: colors.cyan }}>Code </span>
+              <span style={{ color: colors.green }}>à </span>
+              <span style={{ color: colors.orange }}>la </span>
+              <span style={{ color: colors.magenta }}>Mode</span>
+            </div>
+        </AppBar>
             <Paper style={style} zDepth={2} >
               <FileTreeContainer directory={'/'} socket={socket} />
             </Paper>
-          <Flexbox height="50%">
-            <RaisedButton
-              label="Toggle Drawer"
-              onTouchTap={this.handleToggle}
-            />
             <Paper style={style} zDepth={5} >
               <CodeView socket={socket} requestedFilePath={requestedFilePath} />
             </Paper>
-          </Flexbox>
-
-              <Drawer width={200} openSecondary={Boolean(true)} open={this.state.open} >
-
-                <Sidebar />
-              </Drawer>
-
       </Flexbox>
     );
   }
@@ -76,4 +77,3 @@ const mapDispatch = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatch)(MainView);
-

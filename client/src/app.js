@@ -2,7 +2,7 @@ import React from 'react';
 import MainView from './components/MainView';
 import Main from './components/Main';
 import Button from './components/animatedButton';
-import CodeTheme from './codeTheme.js';
+import CodeTheme from './utils/codeTheme';
 
 import Flexbox from 'flexbox-react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -18,6 +18,4 @@ const App = () => (
     </div>
   </Flexbox>
 );
-
-
 export default App;
