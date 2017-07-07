@@ -73,6 +73,7 @@ export default class CodeView extends Component {
             <Paper style={style} zDepth={5} >
               <AceEditor
                 value={this.state.data}
+                width="1000"
                 mode="javascript"
                 theme="monokai"
                 height="920"
