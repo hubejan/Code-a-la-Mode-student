@@ -15,7 +15,7 @@ const textFieldStyles = {
   padding: '0 0 5px 0',
   textAlign: 'center',
   errorStyle: { color: red },
-  underlineFocusStyle: { color: cyan }
+  underlineFocusStyle: { borderColor: cyan }
 };
 
 const inputStyles = {
