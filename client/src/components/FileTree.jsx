@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FadeIn from 'react-fade-in';
 import PropTypes from 'prop-types';
 import Directory from './Directory';
 import File from './File';
@@ -82,29 +83,32 @@ export default class FileTree extends Component {
           const filePath = file.filePath;
           const fileName = filePath.split('/').slice(-1).join('');
           return file.isDirectory ?
-            <li className="_directory" key={`${filePath} Directory`} style={directoryStyle}>
-              <div onClick={() => this.setVisibility(file.filePath)} role="menuitem" tabIndex={0}>
-                <Directory
-                  className="directory"
-                  visible={this.props.isVisible[file.filePath]}
-                  theme={this.props.directoryTheme}
-                />
-                {` ${fileName}`}
-              </div>
-              {this.props.isVisible[file.filePath] &&
-              <FileTree
-                files={file.files}
-                directory={file.filePath}
-                onFileClick={this.props.onFileClick}
-                toggleVisibility={this.props.toggleVisibility}
-                directoryTheme={this.props.directoryTheme || 'light'}
-                isVisible={this.props.isVisible}
-                fileTreeStyle={this.props.fileTreeStyle}
-                directoryStyle={this.props.directoryStyle}
-                fileStyle={this.props.fileStyle}
-              />}
-            </li>
+            <FadeIn>
+              <li className="_directory" key={`${filePath} Directory`} style={directoryStyle}>
+                <div onClick={() => this.setVisibility(file.filePath)} role="menuitem" tabIndex={0}>
+                  <Directory
+                    className="directory"
+                    visible={this.props.isVisible[file.filePath]}
+                    theme={this.props.directoryTheme}
+                  />
+                  {` ${fileName}`}
+                </div>
+                {this.props.isVisible[file.filePath] &&
+                <FileTree
+                  files={file.files}
+                  directory={file.filePath}
+                  onFileClick={this.props.onFileClick}
+                  toggleVisibility={this.props.toggleVisibility}
+                  directoryTheme={this.props.directoryTheme || 'light'}
+                  isVisible={this.props.isVisible}
+                  fileTreeStyle={this.props.fileTreeStyle}
+                  directoryStyle={this.props.directoryStyle}
+                  fileStyle={this.props.fileStyle}
+                />}
+              </li>
+            </FadeIn>
             :
+            <FadeIn>
             <li
               className="_file"
               key={filePath}
@@ -112,7 +116,7 @@ export default class FileTree extends Component {
               onClick={() => this.onFileClick(file)}
               style={fileStyle}
             >
-              <File className="file" />{` ${fileName}`}</li>;
+              <File className="file" />{` ${fileName}`}</li></FadeIn>;
         })
         }
       </ul>
