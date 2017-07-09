@@ -8,7 +8,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Drawer from 'material-ui/Drawer';
 import Paper from 'material-ui/Paper';
 import CodeView from './CodeView';
-import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import store from '../store';
 import FileTreeContainer from '../containers/FileTreeContainer';

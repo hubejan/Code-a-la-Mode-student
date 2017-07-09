@@ -2,7 +2,7 @@ export default {
   fileTreeStyle: {
     fontFamily: 'sans-serif',
     listStyle: 'none',
-    marginLeft: 1,
+    marginLeft: 2,
     paddingLeft: 8
   },
   directoryStyle: {

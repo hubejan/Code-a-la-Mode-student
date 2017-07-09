@@ -18,7 +18,49 @@ export default class CodeView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: ''
+      data: `
+   .d8888b.   .d88888b.  8888888b.  8888888888
+  d88P  Y88b d88P   Y88b 888   Y88b 888
+  888    888 888     888 888    888 888
+  888        888     888 888    888 8888888
+  888        888     888 888    888 888
+  888    888 888     888 888    888 888
+  Y88b  d88P Y88b. .d88P 888  .d88P 888
+    Y8888P     Y88888P   8888888P   8888888888
+
+
+
+         d8888
+        d88888
+       d88P888
+      d88P 888
+     d88P  888
+    d88P   888
+   d8888888888
+  d88P     888
+
+
+
+  888             d8888
+  888            d88888
+  888           d88P888
+  888          d88P 888
+  888         d88P  888
+  888        d88P   888
+  888       d8888888888
+  88888888 d88P     888
+
+
+
+  888b     d888  .d88888b.  8888888b.  8888888888
+  8888b   d8888 d88P   Y88b 888   Y88b 888
+  88888b.d88888 888     888 888    888 888
+  888Y88888P888 888     888 888    888 8888888
+  888 Y888P 888 888     888 888    888 888
+  888  Y8P  888 888     888 888    888 888
+  888       888 Y88b. .d88P 888  .d88P 888
+  888       888   Y88888P   8888888P   8888888888
+`
     };
     // Brian's IP from 11th floor 172.16.21.52:3030
     //                25th floor 172.16.25.125:3030
@@ -59,13 +101,6 @@ export default class CodeView extends Component {
     return (
       <Flexbox flexDirection="column" height="100%" width="60vw" >
         <Flexbox flexDirection="column" height="100%" >
-          <Flexbox flexDirection="row">
-            <button id="first" type="button" >First</button>
-            <button id="prev" type="button" >Prev</button>
-            <button id="makeSnapshot" type="button" >Snapshot</button>
-            <button id="next" type="button" >Next</button>
-            <button id="last" type="button" >Last</button>
-          </Flexbox>
           <Flexbox flexDirection="column">
             <TicketSubmitContainer socket={this.props.socket} />
           </Flexbox>
@@ -73,50 +108,16 @@ export default class CodeView extends Component {
             <Paper style={style} zDepth={5} >
               <AceEditor
                 value={this.state.data}
+                width="1000"
                 mode="javascript"
                 theme="monokai"
                 height="920"
+                wrapEnabled={Boolean(true)}
                 editorProps={{ $blockScrolling: Infinity }}
                 showPrintMargin={false}
-                defaultValue={` //      ,gggg,
-//     ,88"""Y8b,                      8I
-//    d8"     \`Y8                      8I
-//   d8'   8b  d8                      8I
-//  ,8I    "Y88P'                      8I
-//  I8'             ,ggggg,      ,gggg,8I   ,ggg,
-//  d8             dP"  "Y8ggg  dP"  "Y8I  i8" "8i
-//  Y8,           i8'    ,8I   i8'    ,8I  I8, ,8I
-//  \`Yba,,_____, ,d8,   ,d8'  ,d8,   ,d8b, \`YbadP'
-//    \`"Y8888888 P"Y8888P"    P"Y8888P"\`Y8888P"Y888
-//
-//     ,gggg,gg
-//    dP"  "Y8I
-//   i8'    ,8I
-//   d8,   ,d8b,
-//   "Y8888P"\`Y8
-//
-//   ,dPYb,
-//   IP'\`Yb
-//   I8  8I
-//   I8  8'
-//   I8 dP    ,gggg,gg
-//   I8dP    dP"  "Y8I
-//   I8P    i8'    ,8I
-//  ,d8b,_ ,d8,   ,d8b,
-//  8P'"Y88P"Y8888P"\`Y8
-//
-//   ,ggg, ,ggg,_,ggg,
-//  dP""Y8dP""Y88P""Y8b                       8I
-//  Yb, \`88'  \`88'  \`88                       8I
-//   \`"  88    88    88                       8I
-//       88    88    88                       8I
-//       88    88    88    ,ggggg,      ,gggg,8I   ,ggg,
-//       88    88    88   dP"  "Y8ggg  dP"  "Y8I  i8" "8i
-//       88    88    88  i8'    ,8I   i8'    ,8I  I8, ,8I
-//       88    88    Y8,,d8,   ,d8'  ,d8,   ,d8b, \`YbadP'
-//       88    88    \`Y8P"Y8888P"    P"Y8888P"\`Y8888P"Y888
-
-`}
+                onLoad={(editor) => {
+                  editor.getSession().setUseWorker(false)
+                }}
               />
             </Paper>
           </Flexbox>
