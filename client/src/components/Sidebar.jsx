@@ -19,7 +19,7 @@ const Sidebar = ({ snapshots, selectSnapshot }) => (
           snapshots.list.map((snapshot) => {
             return (
               <li key={snapshot.id} className="category-item menu-item">
-                <Link onClick={ () => selectSnapshot(snapshot)}>{snapshot.name}</Link>
+                <Link onClick={() => selectSnapshot(snapshot)}>{snapshot.name}</Link>
               </li>
             );
           })
