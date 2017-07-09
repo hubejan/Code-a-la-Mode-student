@@ -1,5 +1,5 @@
-# fullstack-react-boilerplate (tiny bones)
-Starting point for Full Stack React-based Javascript Applications!
+# Code a la Mode (Student)
+Student's application of Code a la Mode platform.
 
 ### Features:
 * React
@@ -13,7 +13,7 @@ Starting point for Full Stack React-based Javascript Applications!
 
 
 # Instructions
-1. Clone this repo to your local machine `https://github.com/Crizzooo/react-redux-express-boilerplate.git`
+1. Clone this repo to your local machine `https://github.com/hubejan/Code-a-la-Mode-student`
 2. `npm install --save`
 3. `npm start`
 4. Visit `localhost:3000` to verify everything works!
